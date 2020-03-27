@@ -1,0 +1,49 @@
+CREATE VIEW transaksi
+AS
+SELECT
+    penugasan.id AS idpenugasan,
+    penugasan.id_kegiatan,
+    penugasan.id_dosen,
+    penugasan.id_jabatan,
+    penugasan.periode_awal,
+    penugasan.periode_akhir,
+    kegiatan.id AS idkegiatan,
+    kegiatan.nama AS namakegiatan,
+    kegiatan.deskripsi,
+    kegiatan.tanggal_mulai,
+    kegiatan.tanggal_akhir,
+    kegiatan.tempat,
+    kegiatan.status,
+    kegiatan.konfirmasi,
+    kegiatan.jenis,
+    dosen.id AS iddosen,
+    dosen.NIK,
+    dosen.nama AS namadosen,
+    dosen.email,
+    dosen.password,
+    dosen.role,
+    jabatan.id AS idjabatan,
+    jabatan.nama AS namajabatan
+FROM
+    `penugasan`
+JOIN `kegiatan` ON penugasan.id_kegiatan = kegiatan.id
+JOIN `dosen` ON penugasan.id_dosen = dosen.id
+JOIN `jabatan` ON penugasan.id_jabatan = jabatan.id
+ORDER BY penugasan.id DESC
+
+SELECT * FROM `kegiatan` 
+WHERE
+(kegiatan.tanggal_mulai >= '2019/11/4') AND
+(kegiatan.tanggal_akhir <= '2019/11/9')
+
+SELECT * FROM `kegiatan` 
+WHERE
+(kegiatan.tanggal_mulai BETWEEN '2019/11/6' AND '2019/11/7') OR
+(kegiatan.tanggal_akhir BETWEEN '2019/11/6' AND '2019/11/7')
+
+SELECT * FROM `kegiatan` 
+WHERE
+((kegiatan.tanggal_mulai BETWEEN '2019/11/6' AND '2019/11/7') OR
+(kegiatan.tanggal_akhir BETWEEN '2019/11/6' AND '2019/11/7')) OR
+((kegiatan.tanggal_mulai <= '2019/11/6') AND
+(kegiatan.tanggal_akhir >= '2019/11/7'))
