@@ -253,6 +253,8 @@
 
           <div class="form-group">
             <label for="exampleFormControlSelect1">Jenis Kegiatan</label>
+            <label style="font-size: 13px; color: #8a8a5c;">Kegiatan Eksternal adalah kegiatan yang berasal atau ditawarkan dari pihak dari luar prodi Informatika UNPAR</label>
+            <label style="font-size: 13px; color: #8a8a5c;">Kegiatan Internal adalah kegiatan yang berasal dari prodi Informatika UNPAR</label>
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
             </span>
@@ -283,6 +285,19 @@
           <select class="form-control" id="mhs" name="mhs">
             <option value="0" id="0" name="0">Tidak</option>
             <option value="1" id="1" name="1">Ya</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label for="exampleFormControlSelect1">Sumber biaya kegiatan ini</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select class="form-control" id="sumberbiaya" name="sumberbiaya">
+            <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
+            <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
+            <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
           </select>
         </div>
       </div>
@@ -326,7 +341,7 @@
     $(function () {
       $("#awal").datepicker({
         numberOfMonths: 2,
-        minDate :1,
+        minDate :0,
         onSelect: function (selected) {
           var dt = new Date(selected);
           dt.setDate(dt.getDate() + 0);
@@ -335,7 +350,7 @@
       });
       $("#akhir").datepicker({
         numberOfMonths: 2,
-        minDate :1,
+        minDate :0,
         onSelect: function (selected) {
           var dt = new Date(selected);
           dt.setDate(dt.getDate() - 0);

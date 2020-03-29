@@ -339,7 +339,8 @@ class C_kajur extends CI_Controller {
 			'konfirmasi' => '1',
 			'jenis' => $this->input->post('jenis'),
 			'instansilain' => $this->input->post('colab'),
-			'keterlibatan_mahasiswa' => $this->input->post('mhs'),
+			'melibatkanmahasiswa' => $this->input->post('mhs'),
+			'sumberbiaya' => $this->input->post('sumberbiaya'),
 			'pengaju' => $this->getdosen['id']
 		);
 
