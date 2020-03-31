@@ -46,7 +46,7 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-user"></i>
-          Tambah Jenis Keterlibatan</div>
+          Edit Jenis Keterlibatan</div>
           <div class="card-body">
 
             <form method="post" action="<?php echo base_url(). 'kajur/kerjasama/masukincolab'; ?>">
@@ -74,6 +74,9 @@
                   <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
                 </span>
                 <select class="form-control" id="jabatan" name="keterlibatan">
+                  <option value="<?=$colab->idketerlibatan?>" selected>
+                    <?php echo $colab->namaketerlibatan;?>
+                  </option>
                   <?php foreach ($keterlibatan as $row) :?>
                     <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
                   <?php endforeach;?>
@@ -81,7 +84,14 @@
               </div>
             </div>
 
-            <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" />
+            <div class="form-group">
+                <div class="form-label-group">
+                  <input type="text" name="ket" id="ket" value="<?php echo $colab->ket; ?>" class="form-control" placeholder="Keterangan/Kontak" required="required" >
+                  <label for="ket">Keterangan/Kontak</label>
+                </div>
+              </div>
+
+            <input id="submit" name="submit" type="submit" class="btn btn-primary" value="Simpan" />
           </form>
           
         </div>

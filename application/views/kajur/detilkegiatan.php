@@ -250,6 +250,67 @@
   </div>
 
 </div>
+<?php if ($kegiatan->melibatkanmahasiswa == 1) :?>
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-user"></i>
+    Penugasan Mahasiswa</div>
+    <div class="card-body">
+      <?php if ($kegiatan->status == 0) :?>
+        <div class="pb-3">
+          <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#penugasan-mhs">Tambah Penugasan</a>
+        </div>
+      <?php endif; ?>
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Kegiatan</th>
+                <th>Mahasiswa</th>
+                <th>Jabatan</th>
+                <th>Tanggal Awal Menjabat</th>
+                <th>Tanggal Akhir Menjabat</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Kegiatan</th>
+                <th>Mahasiswa</th>
+                <th>Jabatan</th>
+                <th>Tanggal Awal Menjabat</th>
+                <th>Tanggal Akhir Menjabat</th>
+                <th></th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <?php foreach($penugasanmahasiswa as $row): ?>
+                <tr>
+                  <td><?php echo $row->namakegiatan ?></td>
+                  <td><?php echo $row->namamhs ?></td>
+                  <td><?php echo $row->namajabatan ?></td>
+                  <td><?=  date ("M d, Y",strtotime($row->periode_awal)); ?></td>
+                  <td><?=  date ("M d, Y",strtotime($row->periode_akhir)); ?></td>
+                  <td>
+                    <?php if ($kegiatan->status == 0) :?>
+                      
+                      <?php echo anchor('penugasan-mhs/delete/'.$row->idpenugasan,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")). " | "; ?>  
+                    <?php endif; ?>
+                    -
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+<?php endif; ?>
 
 <div class="card mb-3">
   <div class="card-header">
@@ -340,7 +401,8 @@
               <th>Nama Kegiatan</th>
               <th>Instansi Lain</th>
               <th>Jenis Instansi</th>
-              <th>Jenis Kolaborasi</th>
+              <th>Keterlibatan Sebagai</th>
+              <th>Keterangan/Kontak</th>
               <th></th>
             </tr>
           </thead>
@@ -349,7 +411,8 @@
               <th>Nama Kegiatan</th>
               <th>Instansi Lain</th>
               <th>Jenis Instnasi</th>
-              <th>Jenis Kolaborasi</th>
+              <th>Keterlibatan Sebagai</th>
+              <th>Keterangan/Kontak</th>
               <th></th>
             </tr>
           </tfoot>
@@ -366,14 +429,18 @@
                   }?>
                 </td>
                 <td>
-                  <?php if ($row->idketerlibatan == 0) {
-                    echo anchor('kajur/kerjasama/detil/'.$row->id,'Tambah jenis keterlibatan');
-                  }else{
+                  <?php 
                     echo $row->namaketerlibatan;
-                  }?>
+                  ?>
+                </td>
+                <td>
+                  <?php 
+                    echo $row->ket;
+                  ?>
                 </td>
                 <td>
                   <?php if ($kegiatan->status == 0) :?>
+                    <?php echo anchor('kajur/kerjasama/detil/'.$row->id,'Detail'); ?>
                     <?php echo anchor('kajur/kerjasama/delete/'.$row->id,'<i class="fa fa-trash"></i>' , array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                   <?php endif; ?>
                 </td>
@@ -557,7 +624,7 @@
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
             </span>
-            <select class="form-control" id="dosen" name="dosen">
+            <select class="bootstrap-select-instansi form-control selectpicker" id="dosen" name="dosen" data-live-search="true">
               <?php foreach ($dosen as $row) :?>
                 <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
               <?php endforeach;?>
@@ -588,6 +655,73 @@
 </div>
 <!-- end modals penugasan -->
 
+<!-- modals penugasan mahasiswa -->
+<div class="modal fade" id="penugasan-mhs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Penugasan Mahasiswa</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- form -->
+        <form method="post" action="<?php echo base_url(). 'penugasan/insert-mhs'; ?>" enctype="multipart/form-data">
+          <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
+
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" name="namakegiatan" id="namakegiatan" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
+              <label for="nama">Nama Kegiatan</label>
+            </div>
+          </div>
+
+          
+
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
+              <label for="pakhir">Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Mahasiswa</label>
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+            </span>
+            <select class="bootstrap-select-instansi form-control selectpicker" id="mahasiswa" name="mahasiswa" data-live-search="true">
+              <?php foreach ($mahasiswa as $row) :?>
+                <option value="<?php echo $row->npm;?>"><?php echo $row->nama." - ".$row->npm;?></option>
+              <?php endforeach;?>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Jabatan</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select class="form-control" id="jabatan" name="jabatan">
+            <?php foreach ($jabatan as $row) :?>
+              <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      <input id="submit" name="submitupload" type="submit" class="btn btn-primary" value="SUBMIT" />
+    </div>
+  </form>
+</div>
+</div>
+</div>
+<!-- end modals penugasan mahasiswa -->
+
 <!-- modals kerjasama -->
 <div class="modal fade" id="kerjasama" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -615,7 +749,7 @@
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
             </span>
-            <select id="bootstrap-select-instansi" class="bootstrap-select-instansi form-control selectpicker" name="instansi[]" data-width="100%" data-live-search="true" multiple required>
+            <select id="bootstrap-select-instansi" class="bootstrap-select-instansi form-control selectpicker" name="instansi" data-width="100%" data-live-search="true" required>
               <?php foreach ($instansi->result() as $row) :?>
                 <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
               <?php endforeach;?>
@@ -623,14 +757,34 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Keterlibatan Sebagai</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select id="bootstrap-select-instansi" class="bootstrap-select-instansi form-control selectpicker" name="terlibat" data-width="100%" data-live-search="true" required>
+            <?php foreach ($keterlibatan as $row) :?>
+              <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <input id="submitkerjasama" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+      <div class="form-group">
+        <div class="form-label-group">
+          <input type="text" name="ket" id="ket" class="form-control" placeholder="Keterangan/Orang yang bersangkutan">
+          <label for="ket">Keterangan/Orang yang bersangkutan</label>
+        </div>
       </div>
-    </form>
-  </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      <input id="submitkerjasama" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+    </div>
+  </form>
+</div>
 </div>
 </div>
 <!-- end modals kerjasama -->

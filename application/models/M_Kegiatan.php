@@ -59,12 +59,17 @@ class M_Kegiatan extends CI_Model {
 		$this->db->update('penugasan', $data, array('id_kegiatan' => $idKegiatan));
 	}
 
+	 public function editTanggalAkhir2($data, $idKegiatan){
+		$this->load->database();
+		$this->db->update('penugasan_mahasiswa', $data, array('id_kegiatan' => $idKegiatan));
+	}
+
 	public function search($key, $start, $end, $status, $konfirmasi){
 		$this->load->database();		
 		//var_dump($this->input->post('key'));
 		$que = "SELECT * FROM `kegiatan` WHERE (`status`='$status' AND `konfirmasi`='$konfirmasi')";
 		$cari = " AND ((`nama` LIKE '%$key%') OR (`deskripsi` LIKE '%$key%') OR (`tempat` LIKE '%$key%'))";
-		$tanggal = " AND ((`tanggal_akhir` BETWEEN '$start' AND '$end') OR (`tanggal_mulai` BETWEEN '$start' AND '$end'))";
+		$tanggal = " AND ((`tanggal_akhir` BETWEEN '$start' AND '$end') OR (`tanggal_mulai` BETWEEN '$start' AND '$end') OR ((`tanggal_mulai` <= '$start') AND (`tanggal_akhir` >= '$end') ))";
 		//$query = $que.$cari.$tanggal;
 		//var_dump(($this->input->post('start') != "") && (($this->input->post('end'))!=""));
 		$query="";

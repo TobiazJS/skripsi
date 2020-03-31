@@ -298,6 +298,7 @@ class C_dosen extends CI_Controller {
 
 		if($this->M_Kegiatan->edit($data, $id) == TRUE) {
 			$this->M_Kegiatan->editTanggalAkhir($data2, $id);
+			$this->M_Kegiatan->editTanggalAkhir2($data2, $id);
 			$this->session->set_flashdata('edit', true);
 		}
 		else {

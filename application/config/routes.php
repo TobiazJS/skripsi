@@ -120,9 +120,11 @@ $route['dokumen/delete/(:num)'] = 'C_kajur/deleteDokumen/$1';
 
 //penugasan
 $route['penugasan/insert'] = 'C_kajur/insertPenugasan';
+$route['penugasan/insert-mhs'] = 'C_kajur/insertPenugasanMhs';
 $route['penugasan/detil/(:num)'] = 'C_kajur/detilPenugasan/$1';
 $route['penugasan/edit/(:num)'] = 'C_kajur/editPenugasan/$1';
 $route['penugasan/delete/(:num)'] = 'C_kajur/deletePenugasan/$1';
+$route['penugasan-mhs/delete/(:num)'] = 'C_kajur/deletePenugasanMhs/$1';
 
 //dosen
 //dosen jabatan

@@ -16,6 +16,12 @@ class M_Penugasan extends CI_Model{
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 
+	public function insertMhs($data){
+		$this->load->database();
+		$this->db->insert('penugasan_mahasiswa', $data);
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+	}
+
 	public function detil($id){
 		$this->db->select('*');
 		$this->db->from('transaksi');

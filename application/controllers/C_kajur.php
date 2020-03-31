@@ -249,6 +249,9 @@ class C_kajur extends CI_Controller {
 			$value[] = (float) $result->idinstansi;
 		}
 		$data['dokumen'] = $this->M_Dokumen->view($id);
+		$data['mahasiswa'] = $this->db->get('mahasiswa')->result();
+		$data['penugasanmahasiswa'] = $this->db->get_where('penugasan_mhs', array('id_kegiatan'=>$id))->result();
+		$data['keterlibatan'] = $this->db->get_where('keterlibatan', array('id >'=>'0'))->result();
 		//echo json_encode($data['dokumen']);
 
 		$this->load->view('kajur/detilkegiatan.php', $data);
@@ -276,7 +279,8 @@ class C_kajur extends CI_Controller {
 	public function masukinColab(){
 		$this->auth->doAuth();
 		$data = array(
-			'id_keterlibatan' => $this->input->post('keterlibatan')
+			'id_keterlibatan' => $this->input->post('keterlibatan'),
+			'keterangan'	=> $this->input->post('ket')
 		);
 		$id = $this->input->post('id');
 		$idkegiatan = $this->input->post('idkegiatan');
@@ -299,7 +303,9 @@ class C_kajur extends CI_Controller {
 			'tanggal_mulai' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_mulai'))),
 			'tanggal_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_akhir'))),
 			'jenis' => $this->input->post('jenis'),
-			'instansilain' => $this->input->post('colab')
+			'instansilain' => $this->input->post('colab'),
+			'melibatkanmahasiswa' => $this->input->post('mhs'),
+			'sumberbiaya' => $this->input->post('sumberbiaya')
 		);
 
 		$data2 = array(
@@ -308,6 +314,7 @@ class C_kajur extends CI_Controller {
 
 		if($this->M_Kegiatan->edit($data, $id) == TRUE) {
 			$this->M_Kegiatan->editTanggalAkhir($data2, $id);
+			$this->M_Kegiatan->editTanggalAkhir2($data2, $id);
 			$this->session->set_flashdata('edit', true);
 		}
 		else {
@@ -597,6 +604,27 @@ class C_kajur extends CI_Controller {
        	redirect('kajur/detilkegiatan/'.$this->input->post('id'), 'refresh');
        }
 
+       public function insertPenugasanMhs(){
+       	$this->auth->doAuth();
+       	$this->load->model('M_Penugasan');
+       	$this->load->model('M_Kegiatan');
+       	$data = array(
+       		'id_kegiatan' => $this->input->post('id'),
+       		'periode_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('periode_akhir'))),
+       		'npm' => $this->input->post('mahasiswa'),
+       		'id_jabatan' => $this->input->post('jabatan')
+       	);
+       	//var_dump(json_encode($data));
+
+       	if($this->M_Penugasan->insertMhs($data) == TRUE) {
+       		$this->session->set_flashdata('tambah', true);
+       	}
+       	else {
+       		$this->session->set_flashdata('tambah', false);
+       	}
+       	redirect('kajur/detilkegiatan/'.$this->input->post('id'), 'refresh');
+       }
+
        public function detilPenugasan($id){
        	$this->auth->doAuth();
        	$this->load->model('M_Penugasan');
@@ -642,8 +670,16 @@ class C_kajur extends CI_Controller {
        public function deletePenugasan($id){
        	$this->auth->doAuth();
        	$this->load->model('M_KategoriKegiatan');
-       	$idkegiatan = $this->M_KategoriKegiatan->getById($id);
+       	$idkegiatan = $this->db->get_where('penugasan', array('id'=>$id))->row();
        	$this->db->delete('penugasan', array('id'=>$id));
+       	redirect('kajur/detilkegiatan/'.$idkegiatan->id_kegiatan, 'refresh');
+       }
+
+       public function deletePenugasanMhs($id){
+       	$this->auth->doAuth();
+       	$this->load->model('M_KategoriKegiatan');
+       	$idkegiatan = $this->db->get_where('penugasan_mahasiswa', array('id'=>$id))->row();
+       	$this->db->delete('penugasan_mahasiswa', array('id'=>$id));
        	redirect('kajur/detilkegiatan/'.$idkegiatan->id_kegiatan, 'refresh');
        }
 
