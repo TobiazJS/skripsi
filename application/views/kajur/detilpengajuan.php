@@ -108,6 +108,35 @@
               </div>
 
               <div class="form-group">
+                <div class="form-label-group">
+                  <input type="text" name="mhs" id="mhs" value="<?php
+                  if($kegiatan->mhs == 0){
+                    echo "Tidak";
+                  }else{
+                    echo "Ya";
+                  }
+                   ?>" class="form-control" placeholder="Apakah kegiatan ini melibatkan mahasiswa?" required="required" disabled>
+                  <label for="jenis">Apakah kegiatan ini melibatkan mahasiswa?</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input type="text" name="biaya" id="biaya" value="<?php
+                  if($kegiatan->biaya == 0){
+                    echo "Perguruan Tinggi Mandiri";
+                  }else if($kegiatan->biaya == 1){
+                    echo "Lembaga Dalam Negeri (di luar Perguruan Tinggi)";
+                  }else{
+                    echo "Lembaga Luar Negeri";
+                  }
+                   ?>" class="form-control" placeholder="Sumber biaya kegiatan ini" required="required" disabled>
+                  
+                  <label for="jenis">Sumber biaya kegiatan ini</label>
+                </div>
+              </div>
+
+              <div class="form-group">
                 <label for="exampleFormControlSelect1">Aksi</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
@@ -138,7 +167,7 @@
                 </div>
               </div>
 
-            <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" />
+            <input id="submit" name="submit" type="submit" class="btn btn-primary" value="Simpan" />
           </form>
 
         </div>

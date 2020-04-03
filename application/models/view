@@ -47,3 +47,11 @@ WHERE
 (kegiatan.tanggal_akhir BETWEEN '2019/11/6' AND '2019/11/7')) OR
 ((kegiatan.tanggal_mulai <= '2019/11/6') AND
 (kegiatan.tanggal_akhir >= '2019/11/7'))
+
+SELECT * FROM `kegiatan` 
+WHERE
+nama LIKE '%workshop%' AND
+((kegiatan.tanggal_mulai BETWEEN '2020/03/02' AND '2020/03/04') OR
+(kegiatan.tanggal_akhir BETWEEN '2020/03/02' AND '2020/03/04')) OR
+((kegiatan.tanggal_mulai <= '2020/03/02') AND
+(kegiatan.tanggal_akhir >= '2020/03/04'))

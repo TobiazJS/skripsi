@@ -83,12 +83,12 @@
                   <select class="form-control" id="status" name="role">
                     <option value="<?=$detilDosen['role']?>" selected>
                       <?php if ($detilDosen['role'] == 0) :  ?>
-                          <?php echo "Ketua Jurusan/Super Admin"?>
-                        <?php endif; ?>
+                        <?php echo "Ketua Jurusan/Super Admin"?>
+                      <?php endif; ?>
 
-                        <?php if ($detilDosen['role'] == 1) :  ?>
-                          <?php echo "Dosen"?>
-                        <?php endif; ?>
+                      <?php if ($detilDosen['role'] == 1) :  ?>
+                        <?php echo "Dosen"?>
+                      <?php endif; ?>
                     </option>
                     <option value="1" id="" name="1">Dosen</option>
                     
@@ -106,74 +106,89 @@
       </div>
 
       <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Riwayat Penugasan Dosen
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+          Riwayat Penugasan Dosen
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Nama Kegiatan</th>
+                  <th>Tanggal Mulai</th>
+                  <th>Tanggal Selesai</th>
+                  <th>Tempat</th>
+                  <th>Jenis Kegiatan</th>
+                  <th>Status</th>
+                  <th>Jabatan</th>
+                  <th>Konfirmasi</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Nama Kegiatan</th>
+                  <th>Tanggal Mulai</th>
+                  <th>Tanggal Selesai</th>
+                  <th>Tempat</th>
+                  <th>Jenis Kegiatan</th>
+                  <th>Status</th>
+                  <th>Jabatan</th>
+                  <th>Konfirmasi</th>
+                  <th>Detail</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <?php foreach($riwayat as $row): ?>
+                  <?php $idKegiatan = $row->id_kegiatan ?>
                   <tr>
-                    <th>Nama Kegiatan</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Tempat</th>
-                    <th>Jenis Kegiatan</th>
-                    <th>Status</th>
-                    <th>Jabatan</th>
-                    <th>Detail</th>
+                    <td><?=  $row->namakegiatan ?></td>
+                    <td><?=  date ("M d, Y",strtotime($row->tanggal_mulai)); ?></td>
+                    <td><?=  date ("M d, Y",strtotime($row->tanggal_akhir)); ?></td>
+                    <td><?=  $row->tempat ?></td>
+                    <td>
+                      <?php if ($row->jenis == 0) :  ?>
+                        <?php echo "Kegiatan Internal"?>
+                      <?php endif; ?>
+
+                      <?php if ($row->jenis == 1) :  ?>
+                        <?php echo "Kegiatan Eksternal"?>
+                      <?php endif; ?>
+
+                    </td>
+                    <td>
+                      <?php if ($row->status == 0) :  ?>
+                        <?php echo "Belum Terlaksana"?>
+                      <?php endif; ?>
+
+                      <?php if ($row->status == 1) :  ?>
+                        <?php echo "Sudah Terlaksana"?>
+                      <?php endif; ?>
+
+                    </td>
+                    <td><?=  $row->namajabatan ?></td>
+                    <td>
+                      <?php if ($row->status == 0) :  ?>
+                        <?php echo "Belum Dikonfirmasi"?>
+                      <?php endif; ?>
+
+                      <?php if ($row->status == 1) :  ?>
+                        <?php echo "Sudah Dikonfirmasi"?>
+                      <?php endif; ?>
+
+                      <?php if ($row->status == 2) :  ?>
+                        <?php echo "Ditolak"?>
+                      <?php endif; ?>
+                    </td>
+                    <td><?php echo anchor('kajur/detilkegiatan/'.$row->id_kegiatan,'Detail'); ?></td>
                   </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>Nama Kegiatan</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Tempat</th>
-                    <th>Jenis Kegiatan</th>
-                    <th>Status</th>
-                    <th>Jabatan</th>
-                    <th>Detail</th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  <?php foreach($riwayat as $row): ?>
-                    <?php $idKegiatan = $row->id_kegiatan ?>
-                    <tr>
-                      <td><?=  $row->namakegiatan ?></td>
-                      <td><?=  date ("M d, Y",strtotime($row->tanggal_mulai)); ?></td>
-                      <td><?=  date ("M d, Y",strtotime($row->tanggal_akhir)); ?></td>
-                      <td><?=  $row->tempat ?></td>
-                      <td>
-                        <?php if ($row->jenis == 0) :  ?>
-                          <?php echo "Kegiatan Internal"?>
-                        <?php endif; ?>
-
-                        <?php if ($row->jenis == 1) :  ?>
-                          <?php echo "Kegiatan Eksternal"?>
-                        <?php endif; ?>
-
-                      </td>
-                      <td>
-                        <?php if ($row->status == 0) :  ?>
-                          <?php echo "Belum Terlaksana"?>
-                        <?php endif; ?>
-
-                        <?php if ($row->status == 1) :  ?>
-                          <?php echo "Sudah Terlaksana"?>
-                        <?php endif; ?>
-
-                      </td>
-                      <td><?=  $row->namajabatan ?></td>
-                      <td><?php echo anchor('kajur/detilkegiatan/'.$row->id_kegiatan,'Detail'); ?></td>
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->

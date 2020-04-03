@@ -25,10 +25,16 @@
 
   <!-- Custom styles for this template-->
   <!-- <link href="css/sb-admin.css" rel="stylesheet"> -->
+  <style type="text/css">
+    .labelplaceholder{
+      margin-left: 10px;
+    }
+  </style>
 
 </head>
 
 <body id="page-top">
+
 
   <!-- topbar -->
   <?= $topbar ?>
@@ -78,126 +84,208 @@
                   <div class="form-group row">
                     <div class="form-label-group col-7">
                       <input type="text" name="key" id="key" class="form-control" placeholder="Cari disini..">
-                      <label for="key">Cari disini...</label>
+                      <label class="labelplaceholder" for="key">Cari disini...</label>
                     </div>
                     <input id="submit" name="submit" type="submit" class="btn btn-primary col-3" value="CARI" />
                   </div>
                   <div class="form-group row">
-                    <div class="form-label-group col-4">
+                    <div class="form-label-group col-4 ">
                       <input type="text" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
-                      <label for="awals">Tanggal Mulai</label>
+                      <label  class="labelplaceholder" for="awals">Tanggal Mulai</label>
                     </div>
-                    <div class="form-label-group col-4">
+                    <div class="form-label-group col-4 ">
                       <input type="text" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
-                      <label for="akhirs">Tanggal Selesai</label>
+                      <label  class="labelplaceholder" for="akhirs">Tanggal Selesai</label>
                     </div>
                   </div>
-                </form>
-              <?php endif; ?>
-              
-              <?php if ($ses == 0) :?>
-                <form method="post" action="<?php echo base_url(). '/kajur/kegiatan/search/0'; ?>">
+
                   <div class="form-group">
-                    <div class="form-label-group row">
-                      <input type="text" name="key" id="key" class="form-control col-7" placeholder="Cari disini.." >
-                      <label for="key">Cari disini...</label> &nbsp
-                      <input id="submit" name="submit" type="submit" class="btn btn-primary col-3" value="CARI" />
-                    </div>
+                    <label for="exampleFormControlSelect1">Jenis Kegiatan</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+                    </span>
+                    <select class="form-control col-5" id="jenis" name="jns">
+                      <option value="5" name="5" selected></option>
+                      <option value="0" id="" name="0">Kegiatan Internal</option>
+                      <option value="1" id="" name="1">Kegiatan Eksternal</option>
+                    </select>
                   </div>
-                  <div class="form-group row">
-                    <div class="form-label-group col-4">
-                      <input type="text" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
-                      <label for="awals">Tanggal Mulai</label>
-                    </div>
-                    <div class="form-label-group col-4">
-                      <input type="text" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
-                      <label for="akhirs">Tanggal Selesai</label>
-                    </div>
-                  </div>
-                </form>
-              <?php endif; ?>
+                </div>
 
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Melibatkan Mahasiswa?</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+                  </span>
+                  <select class="form-control col-5" id="jenis" name="mhs">
+                    <option value="5" name="5" selected></option>
+                    <option value="1" id="" name="1">Ya</option>
+                    <option value="0" id="" name="0">Tidak</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Sumber Pembiayaan</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+                </span>
+                <select class="form-control col-5" id="jenis" name="biaya">
+                  <option value="5" name="5" selected></option>
+                  <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
+                  <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
+                  <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
+                </select>
+              </div>
             </div>
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Nama Kegiatan</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Tempat</th>
-                    <th>Jenis Kegiatan</th>
-                    <th>Status</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>Nama Kegiatan</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Tempat</th>
-                    <th>Jenis Kegiatan</th>
-                    <th>Status</th>
-                    <th></th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  <?php foreach($kegiatan as $row): ?>
-                    <?php $idKegiatan = $row->id ?>
-                    <tr>
-                      <td><?=  $row->nama ?></td>
-                      <td><?=  date ("M d, Y",strtotime($row->tanggal_mulai)); ?></td>
-                      <td><?=  date ("M d, Y",strtotime($row->tanggal_akhir)); ?></td>
-                      <td><?=  $row->tempat ?></td>
-                      <td>
-                        <?php if ($row->jenis == 0) :  ?>
-                          <?php echo "Kegiatan Internal"?>
-                        <?php endif; ?>
 
-                        <?php if ($row->jenis == 1) :  ?>
-                          <?php echo "Kegiatan Eksternal"?>
-                        <?php endif; ?>
 
-                      </td>
-                      <td>
-                        <?php if ($row->status == 0) :  ?>
-                          <?php echo "Belum Terlaksana"?>
-                        <?php endif; ?>
+          </form>
+        <?php endif; ?>
 
-                        <?php if ($row->status == 1) :  ?>
-                          <?php echo "Sudah Terlaksana"?>
-                        <?php endif; ?>
+        <?php if ($ses == 0) :?>
+          <form method="post" action="<?php echo base_url(). '/kajur/kegiatan/search/0'; ?>">
+            <div class="form-group row">
+              <div class="form-label-group col-7">
+                <input type="text" name="key" id="key" class="form-control" placeholder="Cari disini..">
+                <label class="labelplaceholder" for="key">Cari disini...</label>
+              </div>
+              <input id="submit" name="submit" type="submit" class="btn btn-primary col-3" value="CARI" />
+            </div>
+            <div class="form-group row">
+              <div class="form-label-group col-4">
+                <input type="text" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
+                <label class="labelplaceholder" for="awals">Tanggal Mulai</label>
+              </div>
+              <div class="form-label-group col-4">
+                <input type="text" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
+                <label class="labelplaceholder" for="akhirs">Tanggal Selesai</label>
+              </div>
+            </div>
 
-                      </td>
-                      <td><?php echo anchor('kajur/detilkegiatan/'.$row->id,'Detail'); ?> 
-                      <?php if ($row->status == 0) :?>
-                        | 
-                        <?php echo anchor('kajur/kegiatan/delete/'.$row->id,'<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                      <?php endif; ?>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Jenis Kegiatan</label>
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+              </span>
+              <select class="form-control col-5" id="jenis" name="jns">
+                <option value="5" name="5" selected></option>
+                <option value="0" id="" name="0">Kegiatan Internal</option>
+                <option value="1" id="" name="1">Kegiatan Eksternal</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Melibatkan Mahasiswa?</label>
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+            </span>
+            <select class="form-control col-5" id="jenis" name="mhs">
+              <option value="5" name="5" selected></option>
+              <option value="1" id="" name="1">Ya</option>
+              <option value="0" id="" name="0">Tidak</option>
+            </select>
           </div>
         </div>
-      </div>
 
-    </div>
-    <!-- /.container-fluid -->
-
-    <!-- Sticky Footer -->
-    <footer class="sticky-footer">
-      <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-          <span>Copyright © Your Website 2019</span>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Sumber Pembiayaan</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select class="form-control col-5" id="jenis" name="biaya">
+            <option value="5" name="5" selected></option>
+            <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
+            <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
+            <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
+          </select>
         </div>
       </div>
-    </footer>
+    </form>
+  <?php endif; ?>
 
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nama Kegiatan</th>
+        <th>Tanggal Mulai</th>
+        <th>Tanggal Selesai</th>
+        <th>Tempat</th>
+        <th>Jenis Kegiatan</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Nama Kegiatan</th>
+        <th>Tanggal Mulai</th>
+        <th>Tanggal Selesai</th>
+        <th>Tempat</th>
+        <th>Jenis Kegiatan</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <?php foreach($kegiatan as $row): ?>
+        <?php $idKegiatan = $row->id ?>
+        <tr>
+          <td><?=  $row->nama ?></td>
+          <td><?=  date ("M d, Y",strtotime($row->tanggal_mulai)); ?></td>
+          <td><?=  date ("M d, Y",strtotime($row->tanggal_akhir)); ?></td>
+          <td><?=  $row->tempat ?></td>
+          <td>
+            <?php if ($row->jenis == 0) :  ?>
+              <?php echo "Kegiatan Internal"?>
+            <?php endif; ?>
+
+            <?php if ($row->jenis == 1) :  ?>
+              <?php echo "Kegiatan Eksternal"?>
+            <?php endif; ?>
+
+          </td>
+          <td>
+            <?php if ($row->status == 0) :  ?>
+              <?php echo "Belum Terlaksana"?>
+            <?php endif; ?>
+
+            <?php if ($row->status == 1) :  ?>
+              <?php echo "Sudah Terlaksana"?>
+            <?php endif; ?>
+
+          </td>
+          <td><?php echo anchor('kajur/detilkegiatan/'.$row->id,'Detail'); ?> 
+          <?php if ($row->status == 0) :?>
+            | 
+            <?php echo anchor('kajur/kegiatan/delete/'.$row->id,'<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+          <?php endif; ?>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2019</span>
+    </div>
   </div>
-  <!-- /.content-wrapper -->
+</footer>
+
+</div>
+<!-- /.content-wrapper -->
 
 </div>
 <!-- /#wrapper -->
@@ -278,36 +366,37 @@
       </div>
 
       <div class="form-group">
-          <label for="exampleFormControlSelect1">Apakah kegiatan ini melibatkan mahasiswa?</label>
-          <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-          </span>
-          <select class="form-control" id="mhs" name="mhs">
-            <option value="0" id="0" name="0">Tidak</option>
-            <option value="1" id="1" name="1">Ya</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-          <label for="exampleFormControlSelect1">Sumber biaya kegiatan ini</label>
-          <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-          </span>
-          <select class="form-control" id="sumberbiaya" name="sumberbiaya">
-            <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
-            <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
-            <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
-          </select>
-        </div>
+        <label for="exampleFormControlSelect1">Apakah kegiatan ini melibatkan mahasiswa?</label>
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+        </span>
+        <select class="form-control" id="mhs" name="mhs">
+          <option value="0" id="0" name="0">Tidak</option>
+          <option value="1" id="1" name="1">Ya</option>
+        </select>
       </div>
     </div>
 
-    <div class="modal-footer">
-      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-      <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Sumber biaya kegiatan ini</label>
+      <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+      </span>
+      <select class="form-control" id="sumberbiaya" name="sumberbiaya">
+        <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
+        <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
+        <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
+      </select>
     </div>
-  </form>
+  </div>
+  
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+  <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+</div>
+</form>
 </div>
 </div>
 </div>

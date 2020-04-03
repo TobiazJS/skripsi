@@ -64,35 +64,35 @@ class M_Kegiatan extends CI_Model {
 		$this->db->update('penugasan_mahasiswa', $data, array('id_kegiatan' => $idKegiatan));
 	}
 
-	public function search($key, $start, $end, $status, $konfirmasi){
+	public function search($key, $start, $end, $status, $konfirmasi, $jenis, $mahasiswa, $sumber){
 		$this->load->database();		
-		//var_dump($this->input->post('key'));
+		
 		$que = "SELECT * FROM `kegiatan` WHERE (`status`='$status' AND `konfirmasi`='$konfirmasi')";
-		$cari = " AND ((`nama` LIKE '%$key%') OR (`deskripsi` LIKE '%$key%') OR (`tempat` LIKE '%$key%'))";
-		$tanggal = " AND ((`tanggal_akhir` BETWEEN '$start' AND '$end') OR (`tanggal_mulai` BETWEEN '$start' AND '$end') OR ((`tanggal_mulai` <= '$start') AND (`tanggal_akhir` >= '$end') ))";
-		//$query = $que.$cari.$tanggal;
-		//var_dump(($this->input->post('start') != "") && (($this->input->post('end'))!=""));
-		$query="";
-		if (($this->input->post('key')!="")==true) {
-			if ((($this->input->post('start')!="")==true) && ((($this->input->post('end'))!="")==true)) {
-				$query = $que.$cari.$tanggal;
-			}else{
-				$query = $que.$cari;
-			}
-		}else{
-			if ((($this->input->post('start')!="")==true) && ((($this->input->post('end'))!="")==true)) {
-				$query = $que.$tanggal;
-			}else{
-				$query = "tidak ada yang di search";
-			}
+		$cari = " AND ((`nama` LIKE '%$key%' OR `tempat` LIKE '%$key%'))";
+		$tanggal = " AND (((`tanggal_akhir` BETWEEN '$start' AND '$end') OR (`tanggal_mulai` BETWEEN '$start' AND '$end')) OR ((`tanggal_mulai` <= '$start') AND (`tanggal_akhir` >= '$end')))";
+		$jns = " AND (`jenis` = '$jenis')";
+		$mhs = " AND (`melibatkanmahasiswa` = $mahasiswa)";
+		$biaya = " AND (`sumberbiaya` = '$sumber')";
+		
+		
+
+		if ($this->input->post('key')!="") {
+			$que = $que.$cari;
 		}
-		// return $this->db->query("SELECT * FROM `kegiatan` WHERE (`status`='$status' AND `konfirmasi`='$konfirmasi') 
-		// 	AND ((`nama` LIKE '%$key%') OR (`deskripsi` LIKE '%$key%') OR (`tempat` LIKE '%$key%')) ")
-		// ->result();
-		//var_dump($query);
-		return $this->db->query("$query")->result();
-
-
+		if ($this->input->post('start')!="" && $this->input->post('end')!="") {
+			$que = $que.$tanggal;
+		}
+		if ($jenis!="") {
+			$que = $que.$jns;
+		}
+		if ($mahasiswa!="") {
+			$que = $que.$mhs;
+		}
+		if ($sumber!="") {
+			$que = $que.$biaya;
+		}
+		
+		return $this->db->query("$que")->result();
 	}
 
 	public function selesai($id){

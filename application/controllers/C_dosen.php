@@ -207,9 +207,17 @@ class C_dosen extends CI_Controller {
 		);
 		$this->db->order_by('konfirmasi', 'asc');
 		$pengajuan = $this->db->get_where('kegiatan', $where)->result();
+
+		$where2 = array(
+			'pengaju' => $this->getdosen['id'],
+			'konfirmasi' => 2
+		);
+		$this->db->order_by('konfirmasi', 'asc');
+		$ditolak = $this->db->get_where('kegiatan', $where2)->result();
 		$this->load->view('dosen/kegiatan.php',[
 			'kegiatan' => $kegiatan,
 			'pengajuan' => $pengajuan,
+			'ditolak' => $ditolak,
 			'topbar' => $this->load->view('kajur/topbar',[],true),
 			'sidebar' => $this->load->view('dosen/sidebar',[
 				'nama_hal' => 'kegiatan'
@@ -229,6 +237,8 @@ class C_dosen extends CI_Controller {
 			'konfirmasi' => '0',
 			'jenis' => '0',
 			'instansilain' => $this->input->post('colab'),
+			'melibatkanmahasiswa' => $this->input->post('mhs'),
+			'sumberbiaya' => $this->input->post('sumberbiaya'),
 			'pengaju' => $this->getdosen['id'],
 		);
 
@@ -269,6 +279,9 @@ class C_dosen extends CI_Controller {
 		$data1=$this->M_Kerjasama->see($id);
 		$data['tugasinbelom'] = $this->db->get_where('transaksi', array('id_dosen'=>$this->getdosen['id'], 'id_kegiatan'=>$id))->result();
 		$data['lihatjabatan'] = $this->db->get_where('transaksi', array('id_dosen'=>$this->getdosen['id'], 'id_kegiatan'=>$id))->row();
+		$data['mahasiswa'] = $this->db->get('mahasiswa')->result();
+		$data['penugasanmahasiswa'] = $this->db->get_where('penugasan_mhs', array('id_kegiatan'=>$id))->result();
+		$data['keterlibatan'] = $this->db->get_where('keterlibatan', array('id >'=>'0'))->result();
 
 		foreach ($data1 as $result) {
 			$value[] = (float) $result->idinstansi;
@@ -289,7 +302,9 @@ class C_dosen extends CI_Controller {
 			'tempat' => $this->input->post('tempat'),
 			'tanggal_mulai' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_mulai'))),
 			'tanggal_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_akhir'))),
-			'instansilain' => $this->input->post('colab')
+			'instansilain' => $this->input->post('colab'),
+			'melibatkanmahasiswa' => $this->input->post('mhs'),
+			'sumberbiaya' => $this->input->post('sumberbiaya')
 		);
 
 		$data2 = array(
@@ -338,12 +353,26 @@ class C_dosen extends CI_Controller {
 	public function uploadDokumen($id_kegiatan){
 		$this->auth->doAuth();
 		$this->load->model('M_Dokumen');
+		$nama = $this->input->post('a').$this->input->post('id');
+		
+		if ($this->input->post('jenis')==0) {
+			$nama = $nama."_undangan_kegiatan";
+		}
+		if ($this->input->post('jenis')==1) {
+			$nama = $nama."_proposal_kegiatan";
+		}
+		if ($this->input->post('jenis')==2) {
+			$nama = $nama."_laporan_kegiatan";
+		}
+		if ($this->input->post('jenis')==3) {
+			$nama = $nama."_dokumentasi_kegiatan";
+		}
 		$data = array();
 
 		if($this->input->post('submitupload')){ 
     	// Jika user menekan tombol Submit (Simpan) pada form
       	// lakukan upload file dengan memanggil function upload yang ada di GambarModel.php
-			$upload = $this->M_Dokumen->upload();
+			$upload = $this->M_Dokumen->upload($nama);
 			//var_dump($upload);
 
 			if($upload['result'] == "success"){ 
@@ -356,6 +385,8 @@ class C_dosen extends CI_Controller {
       		// Jika proses upload gagal
 
        		 $data['message'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+       		 echo $data['message'];
+       		 echo anchor('dosen/detilkegiatan/'.$id_kegiatan,'Kembali');
        		}
        	}
        }
@@ -414,6 +445,35 @@ class C_dosen extends CI_Controller {
        		$this->session->set_flashdata('tambah', false);
        	}
        	redirect('dosen/detilkegiatan/'.$this->input->post('id'), 'refresh');
+       }
+
+       public function insertPenugasanMhs(){
+       	$this->auth->doAuth();
+       	$this->load->model('M_Penugasan');
+       	$this->load->model('M_Kegiatan');
+       	$data = array(
+       		'id_kegiatan' => $this->input->post('id'),
+       		'periode_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('periode_akhir'))),
+       		'npm' => $this->input->post('mahasiswa'),
+       		'id_jabatan' => $this->input->post('jabatan')
+       	);
+       	//var_dump(json_encode($data));
+
+       	if($this->M_Penugasan->insertMhs($data) == TRUE) {
+       		$this->session->set_flashdata('tambah', true);
+       	}
+       	else {
+       		$this->session->set_flashdata('tambah', false);
+       	}
+       	redirect('dosen/detilkegiatan/'.$this->input->post('id'), 'refresh');
+       }
+
+       public function deletePenugasanMhs($id){
+       	$this->auth->doAuth();
+       	$this->load->model('M_KategoriKegiatan');
+       	$idkegiatan = $this->db->get_where('penugasan_mahasiswa', array('id'=>$id))->row();
+       	$this->db->delete('penugasan_mahasiswa', array('id'=>$id));
+       	redirect('dosen/detilkegiatan/'.$idkegiatan->id_kegiatan, 'refresh');
        }
 
        public function detilPenugasan($id){

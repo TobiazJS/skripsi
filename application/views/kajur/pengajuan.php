@@ -93,16 +93,88 @@
 
                       </td>
                       <td>
-                        <?php if ($row->status == 0) :  ?>
+                        <?php if ($row->konfirmasi == 0) :  ?>
                           <?php echo "Belum Dikonfirmasi"?>
                         <?php endif; ?>
 
-                        <?php if ($row->status == 1) :  ?>
+                        <?php if ($row->konfirmasi == 1) :  ?>
                           <?php echo "Sudah Dikonfirmasi"?>
                         <?php endif; ?>
 
                       </td>
                       <td><?php echo anchor('kajur/detilpengajuan/'.$row->id,'Detail'); ?></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Pengajuan yang Ditolak
+            <!-- <a class="btn btn-primary " href="#" data-toggle="modal" data-target="#insert">Tambah Kegiatan</a> -->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Nama Kegiatan</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Tempat</th>
+                    <th>Jenis Kegiatan</th>
+                    <th>Konfirmasi</th>
+                    <th>Detail</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Nama Kegiatan</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Tempat</th>
+                    <th>Jenis Kegiatan</th>
+                    <th>Konfirmasi</th>
+                    <th>Detail</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  <?php foreach($ditolak as $row): ?>
+                    <?php $idKegiatan = $row->id ?>
+                    <tr>
+                      <td><?=  $row->nama ?></td>
+                      <td><?=  date ("M d, Y",strtotime($row->tanggal_mulai)); ?></td>
+                      <td><?=  date ("M d, Y",strtotime($row->tanggal_akhir)); ?></td>
+                      <td><?=  $row->tempat ?></td>
+                      <td>
+                        <?php if ($row->jenis == 0) :  ?>
+                          <?php echo "Kegiatan Internal"?>
+                        <?php endif; ?>
+
+                        <?php if ($row->jenis == 1) :  ?>
+                          <?php echo "Kegiatan Eksternal"?>
+                        <?php endif; ?>
+
+                      </td>
+                      <td>
+                        <?php if ($row->konfirmasi == 0) :  ?>
+                          <?php echo "Belum Dikonfirmasi"?>
+                        <?php endif; ?>
+
+                        <?php if ($row->konfirmasi == 1) :  ?>
+                          <?php echo "Sudah Dikonfirmasi"?>
+                        <?php endif; ?>
+
+                        <?php if ($row->konfirmasi == 2) :  ?>
+                          <?php echo "Ditolak"?>
+                        <?php endif; ?>
+
+                      </td>
+                      <td>-</td>
                     </tr>
                   <?php endforeach; ?>
                 </tbody>

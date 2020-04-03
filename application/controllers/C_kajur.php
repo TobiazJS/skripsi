@@ -209,7 +209,20 @@ class C_kajur extends CI_Controller {
 		//var_dump($this->input->post('key'));
 		$start = date('Y-m-d 00:00:00', strtotime($this->input->post('start')));
 		$end = date('Y-m-d 00:00:00', strtotime($this->input->post('end')));
-		$kegiatan = $this->M_Kegiatan->search($this->input->post('key'), $start, $end, $status, 1);
+		$jenis = "";
+		$mahasiswa = "";
+		$biaya = "";
+		if ($this->input->post('jns') != 5) {
+			$jenis = $this->input->post('jns');
+		}
+		if ($this->input->post('mhs') != 5) {
+			$mahasiswa = $this->input->post('mhs');
+		}
+		if ($this->input->post('biaya') != 5) {
+			$biaya = $this->input->post('biaya');
+		}
+
+		$kegiatan = $this->M_Kegiatan->search($this->input->post('key'), $start, $end, $status, 1, $jenis, $mahasiswa, $biaya);
 		$this->load->view('kajur/kegiatan.php',[
 			'kegiatan' => $kegiatan,
 			'ses' =>$status,
@@ -364,8 +377,15 @@ class C_kajur extends CI_Controller {
 		$this->auth->doAuth();
 		$this->load->model('M_Kegiatan');
 		$kegiatan = $this->M_Kegiatan->all(0, 0)->result();
+		$where2 = array(
+			
+			'konfirmasi' => 2
+		);
+		$this->db->order_by('konfirmasi', 'asc');
+		$ditolak = $this->db->get_where('kegiatan', $where2)->result();
 		$this->load->view('kajur/pengajuan.php',[
 			'kegiatan' => $kegiatan,
+			'ditolak' => $ditolak,
 			'topbar' => $this->load->view('kajur/topbar',[],true),
 			'sidebar' => $this->load->view('kajur/sidebar',[
 				'nama_hal' => 'kegiatan'
@@ -503,7 +523,11 @@ class C_kajur extends CI_Controller {
 		$idkegiatan = $this->M_Kerjasama->getById($id);
 		//var_dump(json_encode($idkegiatan->id_kegiatan));
 		$this->M_Kerjasama->delete($id);
-		redirect('kajur/detilkegiatan/'.$idkegiatan->id_kegiatan, 'refresh');
+		if ($this->getdosen['role']==0) {
+			redirect('kajur/detilkegiatan/'.$idkegiatan->id_kegiatan, 'refresh');
+		}else{
+			redirect('dosen/detilkegiatan/'.$idkegiatan->id_kegiatan, 'refresh');
+		}
 	}
 
 	//end kerjasama
@@ -536,11 +560,27 @@ class C_kajur extends CI_Controller {
 		$this->auth->doAuth();
 		$this->load->model('M_Dokumen');
 		$data = array();
+		$nama = $this->input->post('a').$this->input->post('id');
+		
+		if ($this->input->post('jenis')==0) {
+			$nama = $nama."_undangan_kegiatan";
+		}
+		if ($this->input->post('jenis')==1) {
+			$nama = $nama."_proposal_kegiatan";
+		}
+		if ($this->input->post('jenis')==2) {
+			$nama = $nama."_laporan_kegiatan";
+		}
+		if ($this->input->post('jenis')==3) {
+			$nama = $nama."_dokumentasi_kegiatan";
+		}
+
+		var_dump($nama);
 
 		if($this->input->post('submitupload')){ 
     	// Jika user menekan tombol Submit (Simpan) pada form
       	// lakukan upload file dengan memanggil function upload yang ada di GambarModel.php
-			$upload = $this->M_Dokumen->upload();
+			$upload = $this->M_Dokumen->upload($nama);
 			//var_dump($upload);
 
 			if($upload['result'] == "success"){ 
@@ -553,6 +593,8 @@ class C_kajur extends CI_Controller {
       		// Jika proses upload gagal
 
        		 $data['message'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+       		 echo $data['message'];
+       		 echo anchor('kajur/detilkegiatan/'.$id_kegiatan,'Kembali');
        		}
        	}
        }

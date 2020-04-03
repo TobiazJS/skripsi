@@ -94,17 +94,14 @@
 
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="keterangan" id="keterangan" value="<?php echo $kegiatan->keterangan; ?>" class="form-control" placeholder="Keterangan" required="required" disabled>
-                  <label for="keterangan">Keterangan</label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="form-label-group">
                   <input type="text" name="jenis" id="jenis" value="<?php if($kegiatan->jenis == 0){ echo 'Kegiatan Internal';} else{ echo 'Kegiatan Eksternal'; } ?>" class="form-control" placeholder="Jenis Kegiatan" required="required" disabled>
                   <label for="jenis">Jenis Kegiatan</label>
                 </div>
               </div>
+
+
+
+
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Apakah kegiatan ini berkolaborasi dengan instansi lain?</label>
@@ -126,184 +123,146 @@
                 </select>
               </div>
             </div>
-            <?php if ($kegiatan->konfirmasi == 1) :?>
-              <?php if ($kegiatan->status == 0) :?>
 
-                <?php if (count($tugasinbelom) > 0) :?>
-                  <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                    <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SIMPAN" />
-
-
-                    | <?php echo anchor('dosen/kegiatan/delete/'.$kegiatan->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Apakah kegiatan ini melibatkan mahasiswa?</label>
+              <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+              </span>
+              <select class="form-control" id="mhs" name="mhs">
+                <option value="<?=$kegiatan->melibatkanmahasiswa?>" selected>
+                  <?php if ($kegiatan->melibatkanmahasiswa == 0) :  ?>
+                    <?php echo "Tidak"?>
                   <?php endif; ?>
-                <?php endif; ?>
-              <?php endif; ?>
-            <?php endif; ?>
 
-            <?php if ($kegiatan->konfirmasi == 0) :?>
-              <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SIMPAN" />
-
-
-              | <?php echo anchor('dosen/kegiatan/delete/'.$kegiatan->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-            <?php endif; ?>
-
-          </form>
-
-        </div>
-
-      </div>
-
-      <?php if ($kegiatan->konfirmasi == 1) :?>
-        <?php if (count($tugasinbelom) > 0) :?>
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-user"></i>
-            Penugasan Dosen</div>
-            <div class="card-body"> 
-              <?php if ($kegiatan->status == 0) :?>
-
-                <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                  <div class="pb-3">
-                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#penugasan">Tambah Penugasan</a>
-                  </div>
-                <?php endif; ?>
-              <?php endif; ?>
-
-
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Kegiatan</th>
-                        <th>Dosen</th>
-                        <th>Jabatan</th>
-                        <th>Tanggal Awal Menjabat</th>
-                        <th>Tanggal Akhir Menjabat</th>
-                        <th>Detail</th>
-                      </tr>
-                    </thead>
-                    <tfoot>
-                      <tr>
-                        <th>Kegiatan</th>
-                        <th>Dosen</th>
-                        <th>Jabatan</th>
-                        <th>Tanggal Awal Menjabat</th>
-                        <th>Tanggal Akhir Menjabat</th>
-                        <th>Detail</th>
-                      </tr>
-                    </tfoot>
-                    <tbody>
-                      <?php foreach($penugasankegiatan as $row): ?>
-                        <tr>
-                          <td><?php echo $row->namakegiatan ?></td>
-                          <td><?php echo $row->namadosen ?></td>
-                          <td><?php echo $row->namajabatan ?></td>
-                          <td><?=  date ("M d, Y",strtotime($row->periode_awal)); ?></td>
-                          <td><?=  date ("M d, Y",strtotime($row->periode_akhir)); ?></td>
-                          <td>
-                            <?php if ($kegiatan->status == 0) :?>
-                              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                                <?php echo anchor('dosenpenugasan/detil/'.$row->idpenugasan,'Detail'); ?> | 
-                                <?php echo anchor('dosenpenugasan/delete/'.$row->idpenugasan,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                              <?php endif; ?>
-                            <?php endif; ?>
-
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
+                  <?php if ($kegiatan->melibatkanmahasiswa == 1) :  ?>
+                    <?php echo "Ya"?>
+                  <?php endif; ?>
+                </option>
+                <option value="0" id="" name="0">Tidak</option>
+                <option value="1" id="" name="1">Ya</option>
+              </select>
             </div>
-
           </div>
 
-        <?php endif; ?>
-      <?php endif; ?>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Sumber biaya kegiatan ini</label>
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+            </span>
+            <select class="form-control" id="sumberbiaya" name="sumberbiaya">
+              <option value="<?=$kegiatan->sumberbiaya?>" selected>
+                <?php if ($kegiatan->sumberbiaya == 0) :  ?>
+                  <?php echo "Perguruan Tinggi Mandiri"?>
+                <?php endif; ?>
 
+                <?php if ($kegiatan->sumberbiaya == 1) :  ?>
+                  <?php echo "Lembaga Dalam Negeri (di luar Perguruan Tinggi)"?>
+                <?php endif; ?>
+
+                <?php if ($kegiatan->sumberbiaya == 2) :  ?>
+                  <?php echo "Lembaga Luar Negeri"?>
+                <?php endif; ?>
+              </option>
+              <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
+              <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
+              <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label-group">
+            <input type="text" name="keterangan" id="keterangan" value="<?php echo $kegiatan->keterangan; ?>" class="form-control" placeholder="Keterangan" required="required" disabled>
+            <label for="keterangan">Keterangan</label>
+          </div>
+        </div>
+
+        <?php if ($kegiatan->konfirmasi == 1) :?>
+          <?php if ($kegiatan->status == 0) :?>
+
+            <?php if (count($tugasinbelom) > 0) :?>
+              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="Simpan" />
+
+
+                | <?php echo anchor('dosen/kegiatan/delete/'.$kegiatan->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger')); ?>
+              <?php endif; ?>
+            <?php endif; ?>
+          <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($kegiatan->konfirmasi == 0) :?>
+          <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="Simpan" />
+
+
+          | <?php echo anchor('dosen/kegiatan/delete/'.$kegiatan->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger')); ?>
+
+
+        <?php endif; ?>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <?php if ($kegiatan->konfirmasi == 1) :?>
+    <?php if (count($tugasinbelom) > 0) :?>
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-user"></i>
-        Dokumen</div>
-        <div class="card-body">
-          <?php if ($kegiatan->konfirmasi == 1) :?>
-            <?php if (count($tugasinbelom) > 0) :?>
-              <?php if ($kegiatan->status == 0) :?>
+        Penugasan Dosen</div>
+        <div class="card-body"> 
+          <?php if ($kegiatan->status == 0) :?>
 
-                <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                  <div class="pb-3">
-                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#dokumen">Tambah Dokumen</a>
-                  </div>
-                <?php endif; ?>
-              <?php endif; ?>
+            <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+              <div class="pb-3">
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#penugasan">Tambah Penugasan</a>
+              </div>
             <?php endif; ?>
           <?php endif; ?>
 
-          <?php if ($kegiatan->konfirmasi == 0) :?>
-            <div class="pb-3">
-              <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#dokumen">Tambah Dokumen</a>
-            </div>
-          <?php endif; ?>
-          <div style="color: red;"><?php echo (isset($message))? $message : ""; ?></div>
 
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Nama Dokumen</th>
-                    <th>Jenis Dokumen</th>
-                    <th></th>
+                    <th>Kegiatan</th>
+                    <th>Dosen</th>
+                    <th>Jabatan</th>
+                    <th>Tanggal Awal Menjabat</th>
+                    <th>Tanggal Akhir Menjabat</th>
+                    <th>Detail</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Nama Kegiatan</th>
-                    <th>Jenis Dokumen</th>
-                    <th></th>
+                    <th>Kegiatan</th>
+                    <th>Dosen</th>
+                    <th>Jabatan</th>
+                    <th>Tanggal Awal Menjabat</th>
+                    <th>Tanggal Akhir Menjabat</th>
+                    <th>Detail</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  <?php foreach($dokumen as $row): ?>
-                    <?php 
-                    $filename = $row->nama;
-                    $filepath = base_url()."upload/".$filename;?>
+                  <?php foreach($penugasankegiatan as $row): ?>
                     <tr>
-                      <td><a target="_blank" href=<?php echo $filepath; ?>> <?php echo $filename ?></a></td>
+                      <td><?php echo $row->namakegiatan ?></td>
+                      <td><?php echo $row->namadosen ?></td>
+                      <td><?php echo $row->namajabatan ?></td>
+                      <td><?=  date ("M d, Y",strtotime($row->periode_awal)); ?></td>
+                      <td><?=  date ("M d, Y",strtotime($row->periode_akhir)); ?></td>
                       <td>
-                        <?php if ($row->jenis == 0) :  ?>
-                          <?php echo "Undangan Kegiatan"?>
-                        <?php endif; ?>
-
-                        <?php if ($row->jenis == 1) :  ?>
-                          <?php echo "Proposal Kegiatan"?>
-                        <?php endif; ?>
-
-                        <?php if ($row->jenis == 2) :  ?>
-                          <?php echo "Laporan Kegiatan"?>
-                        <?php endif; ?>
-
-                        <?php if ($row->jenis == 3) :  ?>
-                          <?php echo "Dokumentasi Kegiatan"?>
-                        <?php endif; ?>
-                      </td>
-                      <td>
-                        <?php if ($kegiatan->konfirmasi == 1) :?>
-                          <?php if ($kegiatan->status == 0) :?>
-                            <?php if (count($tugasinbelom) > 0) :?>
-                              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                                <?php echo anchor('dosendokumen/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                              <?php endif; ?>
-                            <?php endif; ?>
+                        <?php if ($kegiatan->status == 0) :?>
+                          <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                            <?php echo anchor('dosenpenugasan/detil/'.$row->idpenugasan,'Detail'); ?> | 
+                            <?php echo anchor('dosenpenugasan/delete/'.$row->idpenugasan,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                           <?php endif; ?>
                         <?php endif; ?>
 
-                        <?php if ($kegiatan->konfirmasi == 0) :?>
-                          <?php echo anchor('dosendokumen/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                        <?php endif; ?>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -311,225 +270,405 @@
               </table>
             </div>
           </div>
+
         </div>
-
-
 
       </div>
 
-      <?php if ($kegiatan->konfirmasi == 1) :?>
-        <?php if ($kegiatan->instansilain == 1) :?>
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-user"></i>
-            Kerjasama Dengan Instansi Lain</div>
-            <div class="card-body">
-              <?php if ($kegiatan->status == 0) :?>
-                <?php if (count($tugasinbelom) > 0) :?>
-                  <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                    <div class="pb-3">
-                      <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kerjasama">Tambah Kerjasama</a>
-                    </div>
-                  <?php endif; ?>
-                <?php endif; ?>
-              <?php endif; ?>
+    <?php endif; ?>
+  <?php endif; ?>
 
+
+
+  <?php if ($kegiatan->melibatkanmahasiswa == 1) :?>
+
+    <?php if ($kegiatan->konfirmasi == 1) :?>
+      <?php if (count($tugasinbelom) > 0) :?>
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-user"></i>
+          Penugasan Mahasiswa</div>
+          <div class="card-body"> 
+            <?php if ($kegiatan->status == 0) :?>
+
+              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                <div class="pb-3">
+                  <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#penugasan-mhs">Tambah Penugasan</a>
+                </div>
+              <?php endif; ?>
+            <?php endif; ?>
+
+
+            <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Nama Kegiatan</th>
-                      <th>Instansi Lain</th>
-                      <th>Jenis Instansi</th>
-                      <th>Jenis Kolaborasi</th>
-                      <th></th>
+                      <th>Kegiatan</th>
+                      <th>Mahasiswa</th>
+                      <th>Jabatan</th>
+                      <th>Tanggal Awal Menjabat</th>
+                      <th>Tanggal Akhir Menjabat</th>
+                      <th>Detail</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Nama Kegiatan</th>
-                      <th>Instansi Lain</th>
-                      <th>Jenis Instnasi</th>
-                      <th>Jenis Kolaborasi</th>
-                      <th></th>
+                      <th>Kegiatan</th>
+                      <th>Mahasiswa</th>
+                      <th>Jabatan</th>
+                      <th>Tanggal Awal Menjabat</th>
+                      <th>Tanggal Akhir Menjabat</th>
+                      <th>Detail</th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    <?php foreach($kerjasama as $row): ?>
+                    <?php foreach($penugasanmahasiswa as $row): ?>
                       <tr>
                         <td><?php echo $row->namakegiatan ?></td>
-                        <td><?php echo $row->namainstansi ?></td>
-                        <td>
-                          <?php if ($row->jenisinstansi == 0) {
-                            echo "Instansi Dalam Negeri";
-                          }else{
-                            echo "Instansi Luar Negeri";
-                          }?>
-                        </td>
-                        <td>
-                          <?php if ($row->idketerlibatan == 0) {
-                            echo anchor('kajur/kerjasama/detil/'.$row->id,'Tambah jenis keterlibatan');
-                          }else{
-                            echo $row->namaketerlibatan;
-                          }?>
-                        </td>
+                        <td><?php echo $row->namamhs ?></td>
+                        <td><?php echo $row->namajabatan ?></td>
+                        <td><?=  date ("M d, Y",strtotime($row->periode_awal)); ?></td>
+                        <td><?=  date ("M d, Y",strtotime($row->periode_akhir)); ?></td>
                         <td>
                           <?php if ($kegiatan->status == 0) :?>
-                            <?php if (count($tugasinbelom) > 0) :?>
-                              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                                <?php echo anchor('kajur/kerjasama/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                              <?php endif; ?>
-                            <?php endif; ?>
+
+                            <?php echo anchor('dosenpenugasan-mhs/delete/'.$row->idpenugasan,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")). " | "; ?>  
                           <?php endif; ?>
+                          -
                         </td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
-
             </div>
 
           </div>
-        <?php endif; ?>
-        <?php if (count($tugasinbelom) > 0) :?>
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-user"></i>
-            Kategori Kegiatan</div>
-            <div class="card-body">
-              <?php if ($kegiatan->status == 0) :?>
-                <?php if (count($tugasinbelom) > 0) :?>
-                  <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                    <div class="pb-3">
-                      <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kategorikegiatan">Tambah Kategori Kegiatan</a>
-                    </div>
-                  <?php endif; ?>
-                <?php endif; ?>
-              <?php endif; ?>
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Nama Kegiatan</th>
-                      <th>Kategori</th>
-                      <th>Jenis Kategori</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Nama Kegiatan</th>
-                      <th>Kategori</th>
-                      <th>Jenis Kategori</th>
-                      <th></th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    <?php foreach($kategorikegiatan as $row): ?>
-                      <tr>
-                        <td><?php echo $row->namakegiatan ?></td>
-                        <td><?php echo $row->namakategori ?></td>
-                        <td>
-                          <?php if ($row->jenis == 0) {
-                            echo "Kategori Berdasarkan DIKTI";
-                          }else{
-                            echo "Kategori Biasa";
-                          }?>
-                        </td>
-                        <td>
-                          <?php if ($kegiatan->status == 0) :?>
-                            <?php if (count($tugasinbelom) > 0) :?>
-                              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                                <?php echo anchor('kajur/kategorikegiatan/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                              <?php endif; ?>
-                            <?php endif; ?>
-                          <?php endif; ?>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
-              </div>
 
-
-            </div>
-
-          </div>
-        <?php endif; ?>
+        </div>
 
       <?php endif; ?>
-      <!-- /.container-fluid -->
+    <?php endif; ?>
+  <?php endif; ?>
 
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2019</span>
-          </div>
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-user"></i>
+    Dokumen</div>
+    <div class="card-body">
+      <?php if ($kegiatan->konfirmasi == 1) :?>
+        <?php if (count($tugasinbelom) > 0) :?>
+          <?php if ($kegiatan->status == 0) :?>
+
+            <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+              <div class="pb-3">
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#dokumen">Tambah Dokumen</a>
+              </div>
+            <?php endif; ?>
+          <?php endif; ?>
+        <?php endif; ?>
+      <?php endif; ?>
+
+      <?php if ($kegiatan->konfirmasi == 0) :?>
+        <div class="pb-3">
+          <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#dokumen">Tambah Dokumen</a>
         </div>
-      </footer>
+      <?php endif; ?>
+      <div style="color: red;"><?php echo (isset($message))? $message : ""; ?></div>
 
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Nama Dokumen</th>
+                <th>Jenis Dokumen</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Nama Kegiatan</th>
+                <th>Jenis Dokumen</th>
+                <th></th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <?php foreach($dokumen as $row): ?>
+                <?php 
+                $filename = $row->nama;
+                $filepath = base_url()."upload/".$filename;?>
+                <tr>
+                  <td><a target="_blank" href=<?php echo $filepath; ?>> <?php echo $filename ?></a></td>
+                  <td>
+                    <?php if ($row->jenis == 0) :  ?>
+                      <?php echo "Undangan Kegiatan"?>
+                    <?php endif; ?>
+
+                    <?php if ($row->jenis == 1) :  ?>
+                      <?php echo "Proposal Kegiatan"?>
+                    <?php endif; ?>
+
+                    <?php if ($row->jenis == 2) :  ?>
+                      <?php echo "Laporan Kegiatan"?>
+                    <?php endif; ?>
+
+                    <?php if ($row->jenis == 3) :  ?>
+                      <?php echo "Dokumentasi Kegiatan"?>
+                    <?php endif; ?>
+                  </td>
+                  <td>
+                    <?php if ($kegiatan->konfirmasi == 1) :?>
+                      <?php if ($kegiatan->status == 0) :?>
+                        <?php if (count($tugasinbelom) > 0) :?>
+                          <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                            <?php echo anchor('dosendokumen/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                          <?php endif; ?>
+                        <?php endif; ?>
+                      <?php endif; ?>
+                    <?php endif; ?>
+
+                    <?php if ($kegiatan->konfirmasi == 0) :?>
+                      <?php echo anchor('dosendokumen/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                    <?php endif; ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <!-- /.content-wrapper -->
+
+
 
   </div>
-  <!-- /#wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
 
-  <!-- modals dokumen -->
-  <div class="modal fade" id="dokumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tambah Dokumen</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
+  <!-- --- -->
+  <?php if ($kegiatan->konfirmasi == 1) :?>
+    <?php if ($kegiatan->instansilain == 1) :?>
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-user"></i>
+        Kerjasama Dengan Instansi Lain</div>
+        <div class="card-body">
+          <?php if ($kegiatan->status == 0) :?>
+            <?php if (count($tugasinbelom) > 0) :?>
+              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                <div class="pb-3">
+                  <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kerjasama">Tambah Kerjasama</a>
+                </div>
+              <?php endif; ?>
+            <?php endif; ?>
+          <?php endif; ?>
+
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Nama Kegiatan</th>
+                  <th>Instansi Lain</th>
+                  <th>Jenis Instansi</th>
+                  <th>Keterlibatan Sebagai</th>
+                  <th>Keterangan/Kontak</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Nama Kegiatan</th>
+                  <th>Instansi Lain</th>
+                  <th>Jenis Instnasi</th>
+                  <th>Keterlibatan Sebagai</th>
+                  <th>Keterangan/Kontak</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <?php foreach($kerjasama as $row): ?>
+                  <tr>
+                    <td><?php echo $row->namakegiatan ?></td>
+                    <td><?php echo $row->namainstansi ?></td>
+                    <td>
+                      <?php if ($row->jenisinstansi == 0) {
+                        echo "Instansi Dalam Negeri";
+                      }else{
+                        echo "Instansi Luar Negeri";
+                      }?>
+                    </td>
+                    <td>
+                      <?php 
+                      echo $row->namaketerlibatan;
+                      ?>
+                    </td>
+                    <td>
+                      <?php 
+                      echo $row->ket;
+                      ?>
+                    </td>
+                    <td>
+                      <?php if ($kegiatan->status == 0) :?>
+                        <?php if (count($tugasinbelom) > 0) :?>
+                          <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                            <?php echo anchor('kajur/kerjasama/detil/'.$row->id,'Detail'); ?>
+                            <?php echo anchor('kajur/kerjasama/delete/'.$row->id,'<i class="fa fa-trash"></i>' , array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                          <?php endif; ?>
+                        <?php endif; ?>
+                      <?php endif; ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+
         </div>
-        <div class="modal-body">
-          <!-- form -->
-          <form method="post" action="<?php echo base_url(). 'dosendokumen/upload/'.$kegiatan->id; ?>" enctype="multipart/form-data">
-            <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
 
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" name="namakegiatan" id="namakegiatan" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
-                <label for="nama">Nama Kegiatan</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="file" name="input_gambar" id="nama" value="" class="form-control" placeholder="File Dokumen" required="required">
-                <label for="nama">File Dokumen</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Jenis Dokumen</label>
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-              </span>
-              <select class="form-control" id="jenis" name="jenis">
-                <option value="0" id="0" name="0">Undangan Kegiatan</option>
-                <option value="1" id="1" name="1">Proposal Kegiatan</option>
-                <option value="2" id="2" name="2">Laporan Kegiatan</option>
-                <option value="3" id="3" name="3">Dokumentasi Kegiatan</option>
-              </select>
+      </div>
+    <?php endif; ?>
+    <!-- --- -->
+
+    <?php if (count($tugasinbelom) > 0) :?>
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-user"></i>
+        Kategori Kegiatan</div>
+        <div class="card-body">
+          <?php if ($kegiatan->status == 0) :?>
+            <?php if (count($tugasinbelom) > 0) :?>
+              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                <div class="pb-3">
+                  <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kategorikegiatan">Tambah Kategori Kegiatan</a>
+                </div>
+              <?php endif; ?>
+            <?php endif; ?>
+          <?php endif; ?>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Nama Kegiatan</th>
+                  <th>Kategori</th>
+                  <th>Jenis Kategori</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Nama Kegiatan</th>
+                  <th>Kategori</th>
+                  <th>Jenis Kategori</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <?php foreach($kategorikegiatan as $row): ?>
+                  <tr>
+                    <td><?php echo $row->namakegiatan ?></td>
+                    <td><?php echo $row->namakategori ?></td>
+                    <td>
+                      <?php if ($row->jenis == 0) {
+                        echo "Kategori Berdasarkan DIKTI";
+                      }else{
+                        echo "Kategori Biasa";
+                      }?>
+                    </td>
+                    <td>
+                      <?php if ($kegiatan->status == 0) :?>
+                        <?php if (count($tugasinbelom) > 0) :?>
+                          <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
+                            <?php echo anchor('kajur/kategorikegiatan/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                          <?php endif; ?>
+                        <?php endif; ?>
+                      <?php endif; ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+
+      </div>
+    <?php endif; ?>
+
+  <?php endif; ?>
+  <!-- /.container-fluid -->
+
+  <!-- Sticky Footer -->
+  <footer class="sticky-footer">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright © Your Website 2019</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<!-- /.content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- modals dokumen -->
+<div class="modal fade" id="dokumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Dokumen</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- form -->
+        <form method="post" action="<?php echo base_url(). 'dosendokumen/upload/'.$kegiatan->id; ?>" enctype="multipart/form-data">
+          <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
+          <input type="hidden" name="a" id="a" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="id" required="required">
+
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" name="namakegiatan" id="namakegiatan" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
+              <label for="nama">Nama Kegiatan</label>
             </div>
           </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="file" name="input_gambar" id="nama" value="" class="form-control" placeholder="File Dokumen" required="required">
+              <label for="nama">File Dokumen</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Jenis Dokumen</label>
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+            </span>
+            <select class="form-control" id="jenis" name="jenis">
+              <option value="0" id="0" name="0">Undangan Kegiatan</option>
+              <option value="1" id="1" name="1">Proposal Kegiatan</option>
+              <option value="2" id="2" name="2">Laporan Kegiatan</option>
+              <option value="3" id="3" name="3">Dokumentasi Kegiatan</option>
+            </select>
+          </div>
         </div>
+      </div>
 
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <input id="submit" name="submitupload" type="submit" class="btn btn-primary" value="SUBMIT" />
-        </div>
-      </form>
-    </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <input id="submit" name="submitupload" type="submit" class="btn btn-primary" value="SUBMIT" />
+      </div>
+    </form>
   </div>
+</div>
 </div>
 <!-- end modals dokumen -->
 
@@ -567,7 +706,7 @@
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
             </span>
-            <select class="form-control" id="dosen" name="dosen">
+            <select class="bootstrap-select-instansi form-control selectpicker" id="dosen" name="dosen" data-live-search="true">
               <?php foreach ($dosen as $row) :?>
                 <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
               <?php endforeach;?>
@@ -598,6 +737,73 @@
 </div>
 <!-- end modals penugasan -->
 
+<!-- modals penugasan mahasiswa -->
+<div class="modal fade" id="penugasan-mhs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Penugasan Mahasiswa</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- form -->
+        <form method="post" action="<?php echo base_url(). 'dosenpenugasan/insert-mhs'; ?>" enctype="multipart/form-data">
+          <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
+
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" name="namakegiatan" id="namakegiatan" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
+              <label for="nama">Nama Kegiatan</label>
+            </div>
+          </div>
+
+          
+
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
+              <label for="pakhir">Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Mahasiswa</label>
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+            </span>
+            <select class="bootstrap-select-instansi form-control selectpicker" id="mahasiswa" name="mahasiswa" data-live-search="true">
+              <?php foreach ($mahasiswa as $row) :?>
+                <option value="<?php echo $row->npm;?>"><?php echo $row->nama." - ".$row->npm;?></option>
+              <?php endforeach;?>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Jabatan</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select class="form-control" id="jabatan" name="jabatan">
+            <?php foreach ($jabatan as $row) :?>
+              <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      <input id="submit" name="submitupload" type="submit" class="btn btn-primary" value="SUBMIT" />
+    </div>
+  </form>
+</div>
+</div>
+</div>
+<!-- end modals penugasan mahasiswa -->
+
 <!-- modals kerjasama -->
 <div class="modal fade" id="kerjasama" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -625,7 +831,7 @@
             <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
             </span>
-            <select class="bootstrap-select strings" name="instansi[]" data-width="100%" data-live-search="true" multiple required>
+            <select id="bootstrap-select-instansi" class="bootstrap-select-instansi form-control selectpicker" name="instansi" data-width="100%" data-live-search="true" required>
               <?php foreach ($instansi->result() as $row) :?>
                 <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
               <?php endforeach;?>
@@ -633,14 +839,34 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Keterlibatan Sebagai</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select id="bootstrap-select-instansi" class="bootstrap-select-instansi form-control selectpicker" name="terlibat" data-width="100%" data-live-search="true" required>
+            <?php foreach ($keterlibatan as $row) :?>
+              <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <input id="submitkerjasama" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+      <div class="form-group">
+        <div class="form-label-group">
+          <input type="text" name="ket" id="ket" class="form-control" placeholder="Keterangan/Orang yang bersangkutan">
+          <label for="ket">Keterangan/Orang yang bersangkutan</label>
+        </div>
       </div>
-    </form>
-  </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      <input id="submitkerjasama" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+    </div>
+  </form>
+</div>
 </div>
 </div>
 <!-- end modals kerjasama -->

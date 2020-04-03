@@ -181,10 +181,11 @@
 
       <?php if ($kegiatan->status == 0) :?>
 
-        <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SIMPAN" /> | 
-        <?php echo anchor('kajur/kegiatan/delete/'.$kegiatan->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')") ); ?> |
+        <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="Simpan" /> | 
 
-        <?php echo anchor('kajur/kegiatan/selesai/'.$kegiatan->id,'<h3 class="form-group btn btn-primary">Selesai</h3>', array('onclick' => "return confirm('Kegiatan sudah selesai?')")); ?>
+        <?php echo anchor('kajur/kegiatan/delete/'.$kegiatan->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger') ); ?> |
+
+        <?php echo anchor('kajur/kegiatan/selesai/'.$kegiatan->id,'Selesai', array('onclick' => "return confirm('Kegiatan ini sudah selesai?')",'class'=>'form-group btn btn-success') ); ?> 
       <?php endif; ?>
     </form>
 
@@ -239,6 +240,7 @@
                     <?php echo anchor('penugasan/detil/'.$row->idpenugasan,'Detail'); ?> | 
                     <?php echo anchor('penugasan/delete/'.$row->idpenugasan,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                   <?php endif; ?>
+                  -
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -369,6 +371,7 @@
                   <?php if ($kegiatan->status == 0) :?> 
                     <?php echo anchor('dokumen/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                   <?php endif; ?>
+                  -
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -443,6 +446,7 @@
                     <?php echo anchor('kajur/kerjasama/detil/'.$row->id,'Detail'); ?>
                     <?php echo anchor('kajur/kerjasama/delete/'.$row->id,'<i class="fa fa-trash"></i>' , array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                   <?php endif; ?>
+                  -
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -550,6 +554,8 @@
         <!-- form -->
         <form method="post" action="<?php echo base_url(). 'dokumen/upload/'.$kegiatan->id; ?>" enctype="multipart/form-data">
           <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
+
+          <input type="hidden" name="a" id="a" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="a" required="required">
 
           <div class="form-group">
             <div class="form-label-group">

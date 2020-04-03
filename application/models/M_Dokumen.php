@@ -10,12 +10,12 @@ class M_Dokumen extends CI_Model {
   }
   
   // Fungsi untuk melakukan proses upload file
-  public function upload(){
+  public function upload($filename){
     $config['upload_path'] = './upload/';
-    $config['allowed_types'] = '*';
+    $config['allowed_types'] = 'jpg|jpeg|png|zip|rar|pdf|docs|xlsx';
     $config['max_size']  = '0';
     $config['remove_space'] = TRUE;
-    $config['file_name'] = uniqid();
+    $config['file_name'] = $filename;
 
     $this->load->library('upload', $config); // Load konfigurasi uploadnya
     $this->upload->initialize($config);

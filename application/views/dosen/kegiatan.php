@@ -211,6 +211,83 @@
         </div>
       </div>
 
+      <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Pengajuan yang Ditolak
+            <!-- <a class="btn btn-primary " href="#" data-toggle="modal" data-target="#insert">Tambah Kegiatan</a> -->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Nama Kegiatan</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Tempat</th>
+                    <th>Jenis Kegiatan</th>
+                    <th>Konfirmasi</th>
+                    <th>Detail</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Nama Kegiatan</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Tempat</th>
+                    <th>Jenis Kegiatan</th>
+                    <th>Konfirmasi</th>
+                    <th>Detail</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  <?php foreach($ditolak as $row): ?>
+                    <?php $idKegiatan = $row->id ?>
+                    <tr>
+                      <td><?=  $row->nama ?></td>
+                      <td><?=  date ("M d, Y",strtotime($row->tanggal_mulai)); ?></td>
+                      <td><?=  date ("M d, Y",strtotime($row->tanggal_akhir)); ?></td>
+                      <td><?=  $row->tempat ?></td>
+                      <td>
+                        <?php if ($row->jenis == 0) :  ?>
+                          <?php echo "Kegiatan Internal"?>
+                        <?php endif; ?>
+
+                        <?php if ($row->jenis == 1) :  ?>
+                          <?php echo "Kegiatan Eksternal"?>
+                        <?php endif; ?>
+
+                      </td>
+                      <td>
+                        <?php if ($row->konfirmasi == 0) :  ?>
+                          <?php echo "Belum Dikonfirmasi"?>
+                        <?php endif; ?>
+
+                        <?php if ($row->konfirmasi == 1) :  ?>
+                          <?php echo "Sudah Dikonfirmasi"?>
+                        <?php endif; ?>
+
+                        <?php if ($row->konfirmasi == 2) :  ?>
+                          <?php echo "Pengajuan Ditolak"?>
+                        <?php endif; ?>
+
+                      </td>
+                      <td><?php echo anchor('dosen/detilkegiatan/'.$row->id,'Detail'); ?>
+                      
+                      | 
+                      <?php echo anchor('dosen/kegiatan/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                      
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
     <!-- /.container-fluid -->
 
@@ -289,14 +366,40 @@
             </select>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Apakah kegiatan ini melibatkan mahasiswa?</label>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+          </span>
+          <select class="form-control" id="mhs" name="mhs">
+            <option value="0" id="0" name="0">Tidak</option>
+            <option value="1" id="1" name="1">Ya</option>
+          </select>
+        </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Sumber biaya kegiatan ini</label>
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
+        </span>
+        <select class="form-control" id="sumberbiaya" name="sumberbiaya">
+          <option value="0" id="0" name="0">Perguruan Tinggi Mandiri</option>
+          <option value="1" id="1" name="1">Lembaga Dalam Negeri (di luar Perguruan Tinggi)</option>
+          <option value="2" id="2" name="2">Lembaga Luar Negeri</option>
+        </select>
       </div>
-    </form>
+    </div>
+
   </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+    <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
+  </div>
+</form>
+</div>
 </div>
 </div>
 
@@ -324,42 +427,42 @@
 
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
-        type="text/javascript"></script>
-        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
-        rel="Stylesheet"type="text/css"/>
-        <script type="text/javascript">
-          $(function () {
-            $("#awal").datepicker({
-              numberOfMonths: 2,
-              minDate :1,
-              onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() + 0);
-                $("#akhir").datepicker("option", "minDate", dt);
-              }
-            });
-            $("#akhir").datepicker({
-              numberOfMonths: 2,
-              minDate :1,
-              onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() - 0);
-                $("#awal").datepicker("option", "maxDate", dt);
-              }
-            });
-            
-            $("#pakhir").datepicker({
-              numberOfMonths: 2,
-              minDate :1,
-              onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() - 0);
-                $("#akhir").datepicker("option", "maxDate", dt);
-              }
-            });
-          });
-        </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+  type="text/javascript"></script>
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+  rel="Stylesheet"type="text/css"/>
+  <script type="text/javascript">
+    $(function () {
+      $("#awal").datepicker({
+        numberOfMonths: 2,
+        minDate :1,
+        onSelect: function (selected) {
+          var dt = new Date(selected);
+          dt.setDate(dt.getDate() + 0);
+          $("#akhir").datepicker("option", "minDate", dt);
+        }
+      });
+      $("#akhir").datepicker({
+        numberOfMonths: 2,
+        minDate :1,
+        onSelect: function (selected) {
+          var dt = new Date(selected);
+          dt.setDate(dt.getDate() - 0);
+          $("#awal").datepicker("option", "maxDate", dt);
+        }
+      });
+      
+      $("#pakhir").datepicker({
+        numberOfMonths: 2,
+        minDate :1,
+        onSelect: function (selected) {
+          var dt = new Date(selected);
+          dt.setDate(dt.getDate() - 0);
+          $("#akhir").datepicker("option", "maxDate", dt);
+        }
+      });
+    });
+  </script>
 
 </body>
 

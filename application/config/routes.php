@@ -171,6 +171,8 @@ $route['dosenpenugasan/insert'] = 'C_dosen/insertPenugasan';
 $route['dosenpenugasan/detil/(:num)'] = 'C_dosen/detilPenugasan/$1';
 $route['dosenpenugasan/edit/(:num)'] = 'C_dosen/editPenugasan/$1';
 $route['dosenpenugasan/delete/(:num)'] = 'C_dosen/deletePenugasan/$1';
+$route['dosenpenugasan/insert-mhs'] = 'C_dosen/insertPenugasanMhs';
+$route['dosenpenugasan-mhs/delete/(:num)'] = 'C_dosen/deletePenugasanMhs/$1';
 
 //dosen kategori_kegiatan
 $route['dosen/kategorikegiatan/insert'] = 'C_dosen/insertKategoriKegiatan';
