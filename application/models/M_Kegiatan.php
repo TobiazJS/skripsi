@@ -54,6 +54,13 @@ class M_Kegiatan extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function cnt($idDosen){
+		$this->load->database();
+		return $this->db->get_where('transaksi', array('id_dosen'=>$idDosen, 'status'=>0))->result();
+
+		//return $this->db->get()->result();
+	}
+
 	 public function editTanggalAkhir($data, $idKegiatan){
 		$this->load->database();
 		$this->db->update('penugasan', $data, array('id_kegiatan' => $idKegiatan));
@@ -103,4 +110,3 @@ class M_Kegiatan extends CI_Model {
 
 	// 
 }
-?>

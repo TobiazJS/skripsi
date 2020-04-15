@@ -58,6 +58,7 @@
                     <th>NIK</th>
                     <th>Email</th>
                     <th>Jabatan Dosen</th>
+                    <th>Penugasan Belum Selesai</th>
                     <th>Detail</th>
                   </tr>
                 </thead>
@@ -67,10 +68,12 @@
                     <th>NIK</th>
                     <th>Email</th>
                     <th>Jabatan Dosen</th>
+                    <th>Penugasan Belum Selesai</th>
                     <th>Detail</th>
                   </tr>
                 </tfoot>
                 <tbody>
+                  <?php $i=0; ?>
                   <?php foreach($dosen as $row): ?>
                     <?php $idDosen = $row->id ?>
                     <tr>
@@ -87,8 +90,10 @@
                         <?php endif; ?>
 
                       </td>
+                      <td><?=  $cnt[$i] ?></td>
                       <td><?php echo anchor('kajur/detildosen/'.$row->id,'Detail'); ?></td>
                     </tr>
+                    <?php $i++ ?>
                   <?php endforeach; ?>
                 </tbody>
               </table>

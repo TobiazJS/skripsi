@@ -20,9 +20,15 @@ class C_kajur extends CI_Controller {
 	public function dosen(){
 		$this->auth->doAuth();
 		$this->load->model('M_Dosen');
+		$this->load->model('M_Kegiatan');
 		$dosen = $this->M_Dosen->all();
+		$cnt = array();
+		foreach($dosen as $id){
+			array_push($cnt, count($this->M_Kegiatan->cnt($id->id)));
+		}
 		$this->load->view('kajur/dosen.php',[
 			'dosen' => $dosen,
+			'cnt' => $cnt,
 			'topbar' => $this->load->view('kajur/topbar',[],true),
 			'sidebar' => $this->load->view('kajur/sidebar',[
 				'nama_hal' => 'dosen'
@@ -36,8 +42,12 @@ class C_kajur extends CI_Controller {
 		$this->load->model('M_Kegiatan');
 		$detilDosen = $this->M_Dosen->detil($id);
 		$riwayat = $this->M_Kegiatan->getByDosen($id)->result();
+		$cnt = count($this->M_Kegiatan->cnt($id));
+		$tot = count($riwayat);
 		$this->load->view('kajur/detildosen.php',[
 			'detilDosen' => $detilDosen,
+			'cnt' => $cnt,
+			'tot' => $tot,
 			'riwayat' => $riwayat,
 			'topbar' => $this->load->view('kajur/topbar',[],true),
 			'sidebar' => $this->load->view('kajur/sidebar',[
