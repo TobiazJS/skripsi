@@ -98,7 +98,8 @@
                     </select>
                   </div>
                 </div>
-                <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" />
+                <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="EDIT" />
+                <?php echo anchor('kajur/dosen/delete/'.$detilDosen['id'],'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger') ); ?>
               </form>
             <?php endif; ?>
           </div>

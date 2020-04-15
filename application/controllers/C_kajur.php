@@ -70,6 +70,15 @@ class C_kajur extends CI_Controller {
 		redirect('kajur/dosen', 'refresh');
 	}
 
+	public function hapusDosen($id){
+		$this->auth->doAuth();
+		$data = array(
+			'deleted' => 1
+		);
+		$this->db->update('dosen', $data, array('id'=>$id));
+		redirect('kajur/dosen', 'refresh');
+	}
+
 	//end Dosen
 
 	//jabatan

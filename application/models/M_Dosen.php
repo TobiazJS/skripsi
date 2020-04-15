@@ -8,8 +8,7 @@ class M_Dosen extends CI_Model {
 		// 	$sortby,
 		// 	$sortdir
 		// ]);
-		$query = $this->db->query("select * from dosen");
-		return $query->result();
+		return $this->db->get_where('dosen', array('deleted'=>0))->result();
 		
 	}
 

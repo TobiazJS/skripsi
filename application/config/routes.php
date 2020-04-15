@@ -59,6 +59,7 @@ $route['kajur/dosen'] = 'C_kajur/dosen';
 $route['kajur/detildosen/(:num)'] = 'C_kajur/detildosen/$1';
 $route['kajur/dosen/insert'] = 'C_kajur/insertDosen';
 $route['kajur/dosen/edit/(:num)'] = 'C_kajur/editDosen/$1';
+$route['kajur/dosen/delete/(:num)'] = 'C_kajur/hapusDosen/$1';
 
 //kajur jabatan
 $route['kajur/jabatan'] = 'C_kajur/jabatan';

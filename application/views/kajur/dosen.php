@@ -73,25 +73,28 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  <?php $i=0; ?>
-                  <?php foreach($dosen as $row): ?>
+                  <?php $i = 0; ?>
+                  <?php foreach ($dosen as $row) : ?>
                     <?php $idDosen = $row->id ?>
                     <tr>
-                      <td><?=  $row->nama ?></td>
-                      <td><?=  $row->NIK ?></td>
-                      <td><?=  $row->email ?></td>
+                      <td><?= $row->nama ?></td>
+                      <td><?= $row->NIK ?></td>
+                      <td><?= $row->email ?></td>
                       <td>
                         <?php if ($row->role == 0) :  ?>
-                          <?php echo "Ketua Jurusan/Super Admin"?>
+                          <?php echo "Ketua Jurusan/Super Admin" ?>
                         <?php endif; ?>
 
                         <?php if ($row->role == 1) :  ?>
-                          <?php echo "Dosen"?>
+                          <?php echo "Dosen" ?>
                         <?php endif; ?>
 
                       </td>
-                      <td><?=  $cnt[$i] ?></td>
-                      <td><?php echo anchor('kajur/detildosen/'.$row->id,'Detail'); ?></td>
+                      <td><?= $cnt[$i].' penugasan' ?></td>
+                      <td>
+                        <?php echo anchor('kajur/detildosen/' . $row->id, 'Detail'); ?> |
+                        <?php echo anchor('kajur/dosen/delete/' . $row->id, '<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                      </td>
                     </tr>
                     <?php $i++ ?>
                   <?php endforeach; ?>
@@ -136,7 +139,7 @@
         </div>
         <div class="modal-body">
           <!-- form -->
-          <form method="post" action="<?php echo base_url(). '/kajur/dosen/insert'; ?>">
+          <form method="post" action="<?php echo base_url() . '/kajur/dosen/insert'; ?>">
 
 
             <div class="form-group">
@@ -170,36 +173,36 @@
                 <label for="exampleFormControlSelect1">Peran</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-                </span>
-                <select class="form-control" id="status" name="role">
-                  <option value="1" id="2" name="1">Dosen</option>
-                  <option value="0" id="1" name="0">Super Admin</option>
-                </select>
+                  </span>
+                  <select class="form-control" id="status" name="role">
+                    <option value="1" id="2" name="1">Dosen</option>
+                    <option value="0" id="1" name="0">Super Admin</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
         </div>
 
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
         </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Bootstrap core JavaScript-->
-<script type='text/javascript' src="<?php echo base_url(); ?>js/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendor/jquery/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap core JavaScript-->
+  <script type='text/javascript' src="<?php echo base_url(); ?>js/jquery.min.js"></script>
+  <script src="<?php echo base_url(); ?>vendor/jquery/jquery.min.js"></script>
+  <script src="<?php echo base_url(); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="<?php echo base_url(); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="<?php echo base_url(); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Page level plugin JavaScript-->
-<script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
-<!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
+  <!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
   <script src="<?php echo base_url(); ?>vendor/datatables/dataTables.bootstrap4.js"></script> -->
 
   <!-- Custom scripts for all pages-->
