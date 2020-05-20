@@ -46,7 +46,7 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-user"></i>
-          Ubah Data Kategori</div>
+          Ubah Data Keterlibatan</div>
           <div class="card-body">
             
               <form method="post" action="<?php echo base_url(). '/dosen/kolaborasi/edit'; ?>">
@@ -54,13 +54,13 @@
                 
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="nama" id="nama" value="<?php echo $colab->nama; ?>" class="form-control" placeholder="Kategori" required="required">
+                    <input type="text" maxlength="100" name="nama" id="nama" value="<?php echo $colab->nama; ?>" class="form-control" placeholder="Kategori" required="required">
                     <label for="nama">Jenis Kolaborasi</label>
                   </div>
                 </div>
                 
-              <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" /> | 
-              <?php echo anchor('dosen/kolaborasi/delete/'.$colab->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+              <input id="submit" name="submit" type="submit" class="btn btn-primary form-group" value="SIMPAN" /> | 
+              <?php echo anchor('dosen/kolaborasi/delete/'.$colab->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger')); ?>
             </form>
           
         </div>

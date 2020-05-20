@@ -94,7 +94,7 @@
 
                       </td>
                       <td><?php echo anchor('kajur/detilinstansi/'.$row->id,'Detail'); ?> | 
-                        <?php echo anchor('kajur/instansi/delete/'.$row->id,'<i class="fa fa-trash" aria-hidden="true"></i>'); ?>
+                        <?php echo anchor('kajur/instansi/delete/'.$row->id, '<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -145,7 +145,7 @@
 
             <div class="form-group">
               <div class="form-label-group">
-                <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama" required="required">
+                <input type="text" maxlength="60" name="nama" id="nama" class="form-control" placeholder="Nama" required="required">
                 <label for="nama">Nama</label>
               </div>
             </div>

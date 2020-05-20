@@ -93,7 +93,7 @@
             </div>
           </div>
 
-          <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" />
+          <input id="submit" name="submit" type="submit" class="btn btn-primary form-group" value="SIMPAN" />
         </form>
 
       </div>

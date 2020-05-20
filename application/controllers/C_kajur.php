@@ -112,7 +112,7 @@ class C_kajur extends CI_Controller {
 		$this->auth->doAuth();
 		$this->load->model('M_Jabatan');
 		$this->M_Jabatan->edit();
-		redirect('kajur/jabatan', 'refresh');
+		redirect('kajur/detiljabatan/'.$_POST['id'], 'refresh');
 	}
 
 	public function insertJabatan(){
@@ -594,7 +594,7 @@ class C_kajur extends CI_Controller {
 			$nama = $nama."_dokumentasi_kegiatan";
 		}
 
-		var_dump($nama);
+		//var_dump($nama);
 
 		if($this->input->post('submitupload')){ 
     	// Jika user menekan tombol Submit (Simpan) pada form

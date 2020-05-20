@@ -128,7 +128,7 @@
                     <th>Tempat</th>
                     <th>Jenis Kegiatan</th>
                     <th>Konfirmasi</th>
-                    <th>Detail</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -139,7 +139,7 @@
                     <th>Tempat</th>
                     <th>Jenis Kegiatan</th>
                     <th>Konfirmasi</th>
-                    <th>Detail</th>
+                    <th></th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -174,7 +174,7 @@
                         <?php endif; ?>
 
                       </td>
-                      <td>-</td>
+                      <td><?php echo anchor('kajur/kegiatan/delete/'.$row->id,'<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?></td>
                     </tr>
                   <?php endforeach; ?>
                 </tbody>

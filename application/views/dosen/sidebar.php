@@ -39,12 +39,6 @@
       <span>Jabatan Panitia</span>
     </a>
   </li>
-  <li class="nav-item <?= ($nama_hal == 'kategori')?'active':'' ?>">
-    <a class="nav-link  " href="<?php echo base_url(); ?>dosen/kategori">
-      <i class="fas fa-fw fa-layer-group"></i>
-      <span>Kategori Kegiatan</span>
-    </a>
-  </li>
 
   <li class="nav-item <?= ($nama_hal == 'kolaborasi')?'active':'' ?>">
     <a class="nav-link  " href="<?php echo base_url(); ?>dosen/kolaborasi">

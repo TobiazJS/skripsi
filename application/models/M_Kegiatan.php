@@ -50,6 +50,7 @@ class M_Kegiatan extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('transaksi');
 		$this->db->where('id_dosen', $idDosen);
+		$this->db->order_by('status', 'ASC');
 
 		return $this->db->get();
 	}

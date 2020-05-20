@@ -90,11 +90,11 @@
                   </div>
                   <div class="form-group row">
                     <div class="form-label-group col-4 ">
-                      <input type="text" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
+                      <input type="text" maxlength="10" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
                       <label  class="labelplaceholder" for="awals">Tanggal Mulai</label>
                     </div>
                     <div class="form-label-group col-4 ">
-                      <input type="text" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
+                      <input type="text" maxlength="10" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
                       <label  class="labelplaceholder" for="akhirs">Tanggal Selesai</label>
                     </div>
                   </div>
@@ -154,11 +154,11 @@
             </div>
             <div class="form-group row">
               <div class="form-label-group col-4">
-                <input type="text" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
+                <input type="text" maxlength="10" name="start" id="awals" class="form-control " placeholder="Tanggal Mulai">
                 <label class="labelplaceholder" for="awals">Tanggal Mulai</label>
               </div>
               <div class="form-label-group col-4">
-                <input type="text" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
+                <input type="text" maxlength="10" name="end" id="akhirs" class="form-control " placeholder="Tanggal Selesai">
                 <label class="labelplaceholder" for="akhirs">Tanggal Selesai</label>
               </div>
             </div>
@@ -310,25 +310,25 @@
         <form method="post" action="<?php echo base_url(). '/kajur/kegiatan/insert'; ?>">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama" required="required">
+              <input type="text" maxlength="60" name="nama" id="nama" class="form-control" placeholder="Nama" required="required">
               <label for="nama">Nama</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" name="tanggal_mulai" id="awal" class="form-control" placeholder="Tanggal Mulai" required="required">
+              <input type="text" maxlength="10" name="tanggal_mulai" id="awal" class="form-control" placeholder="Tanggal Mulai" required="required">
               <label for="awal">Tanggal Mulai</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" name="tanggal_akhir" id="akhir" class="form-control" placeholder="Tanggal Selesai" required="required">
+              <input type="text" maxlength="10" name="tanggal_akhir" id="akhir" class="form-control" placeholder="Tanggal Selesai" required="required">
               <label for="akhir">Tanggal Selesai</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" name="tempat" id="tempat" class="form-control" placeholder="Tempat" required="required">
+              <input type="text" maxlength="50" name="tempat" id="tempat" class="form-control" placeholder="Tempat" required="required">
               <label for="tempat">Tempat</label>
             </div>
           </div>

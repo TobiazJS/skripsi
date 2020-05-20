@@ -86,7 +86,7 @@
 
             <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="ket" id="ket" value="<?php echo $colab->ket; ?>" class="form-control" placeholder="Keterangan/Kontak" required="required" >
+                  <input type="text" maxlength="100" name="ket" id="ket" value="<?php echo $colab->ket; ?>" class="form-control" placeholder="Keterangan/Kontak" required="required" >
                   <label for="ket">Keterangan/Kontak</label>
                 </div>
               </div>

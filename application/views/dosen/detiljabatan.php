@@ -54,12 +54,12 @@
                 
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="nama" id="nama" value="<?=$detilJabatan['nama']?>" class="form-control" placeholder="Jabatan" required="required">
+                    <input type="text" maxlength="25" name="nama" id="nama" value="<?=$detilJabatan['nama']?>" class="form-control" placeholder="Jabatan" required="required">
                     <label for="nama">Jabatan</label>
                   </div>
                 </div>
-                <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" /> | 
-                <?php echo anchor('dosen/jabatan/delete/'.$detilJabatan['id'],'Hapus'); ?>
+                <input id="submit" name="submit" type="submit" class="btn btn-primary form-group" value="SIMPAN" /> | 
+                <?php echo anchor('dosen/jabatan/delete/'.$detilJabatan['id'],'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger')); ?>
               </form>
             <?php endif; ?>
           </div>

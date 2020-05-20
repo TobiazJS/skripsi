@@ -162,7 +162,7 @@
 
             <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="keterangan" id="keterangan" class="form-control" placeholder="Keterangan" required="required" >
+                  <input type="text" maxlength="150" name="keterangan" id="keterangan" class="form-control" placeholder="Keterangan" required="required" >
                   <label for="keterangan">Keterangan</label>
                 </div>
               </div>

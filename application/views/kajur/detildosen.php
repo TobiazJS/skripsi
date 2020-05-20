@@ -53,25 +53,25 @@
                 <input type="hidden" name="id" id="id" value="<?= $detilDosen['id'] ?>" class="form-control" placeholder="id" required="required">
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="nik" id="nik" value="<?= $detilDosen['NIK'] ?>" class="form-control" placeholder="NIK" required="required">
+                    <input type="text" maxlength="10" name="nik" id="nik" value="<?= $detilDosen['NIK'] ?>" class="form-control" placeholder="NIK" required="required">
                     <label for="nik">NIK</label>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="nama" id="nama" value="<?= $detilDosen['nama'] ?>" class="form-control" placeholder="Nama" required="required">
+                    <input type="text" maxlength="40" name="nama" id="nama" value="<?= $detilDosen['nama'] ?>" class="form-control" placeholder="Nama" required="required">
                     <label for="nama">Nama</label>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="email" name="email" id="email" value="<?= $detilDosen['email'] ?>" class="form-control" placeholder="Email" required="required">
+                    <input type="email" maxlength="50" name="email" id="email" value="<?= $detilDosen['email'] ?>" class="form-control" placeholder="Email" required="required">
                     <label for="email">Email</label>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="password" id="password" value="<?= $detilDosen['password'] ?>" class="form-control" placeholder="Password" required="required">
+                    <input type="text" maxlength="10" name="password" id="password" value="<?= $detilDosen['password'] ?>" class="form-control" placeholder="Password" required="required">
                     <label for="password">Password</label>
                   </div>
                 </div>
@@ -98,7 +98,7 @@
                     </select>
                   </div>
                 </div>
-                <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="EDIT" />
+                <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="SIMPAN" />
                 <?php echo anchor('kajur/dosen/delete/'.$detilDosen['id'],'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger') ); ?>
               </form>
             <?php endif; ?>

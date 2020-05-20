@@ -63,25 +63,25 @@
               <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="nama" id="nama" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required">
+                  <input type="text" maxlength="60" name="nama" id="nama" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required">
                   <label for="nama">Nama Kegiatan</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="tanggal_mulai" id="awal" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_mulai)); ?>" class="form-control" placeholder="Tanggal Mulai(Bulan/Tanggal/Tahun)" required="required">
+                  <input type="text" maxlength="10" name="tanggal_mulai" id="awal" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_mulai)); ?>" class="form-control" placeholder="Tanggal Mulai(Bulan/Tanggal/Tahun)" required="required">
                   <label for="awal">Tanggal Mulai(Bulan/Tanggal/Tahun)</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="tanggal_akhir" id="akhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai(Bulan/Tanggal/Tahun)" required="required">
+                  <input type="text" maxlength="10" name="tanggal_akhir" id="akhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai(Bulan/Tanggal/Tahun)" required="required">
                   <label for="akhir">Tanggal Selesai(Bulan/Tanggal/Tahun)</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="tempat" id="tempat" value="<?php echo $kegiatan->tempat; ?>" class="form-control" placeholder="Tempat" required="required">
+                  <input type="text" maxlength="50" name="tempat" id="tempat" value="<?php echo $kegiatan->tempat; ?>" class="form-control" placeholder="Tempat" required="required">
                   <label for="tempat">Tempat</label>
                 </div>
               </div>
@@ -262,7 +262,7 @@
                             <?php echo anchor('dosenpenugasan/delete/'.$row->idpenugasan,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                           <?php endif; ?>
                         <?php endif; ?>
-
+                        -
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -432,6 +432,7 @@
                     <?php if ($kegiatan->konfirmasi == 0) :?>
                       <?php echo anchor('dosendokumen/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                     <?php endif; ?>
+                    -
                   </td>
                 </tr>
               <?php endforeach; ?>
@@ -517,6 +518,7 @@
                           <?php endif; ?>
                         <?php endif; ?>
                       <?php endif; ?>
+                      -
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -531,69 +533,7 @@
     <!-- --- -->
 
     <?php if (count($tugasinbelom) > 0) :?>
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-user"></i>
-        Kategori Kegiatan</div>
-        <div class="card-body">
-          <?php if ($kegiatan->status == 0) :?>
-            <?php if (count($tugasinbelom) > 0) :?>
-              <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                <div class="pb-3">
-                  <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kategorikegiatan">Tambah Kategori Kegiatan</a>
-                </div>
-              <?php endif; ?>
-            <?php endif; ?>
-          <?php endif; ?>
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>Nama Kegiatan</th>
-                  <th>Kategori</th>
-                  <th>Jenis Kategori</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>Nama Kegiatan</th>
-                  <th>Kategori</th>
-                  <th>Jenis Kategori</th>
-                  <th></th>
-                </tr>
-              </tfoot>
-              <tbody>
-                <?php foreach($kategorikegiatan as $row): ?>
-                  <tr>
-                    <td><?php echo $row->namakegiatan ?></td>
-                    <td><?php echo $row->namakategori ?></td>
-                    <td>
-                      <?php if ($row->jenis == 0) {
-                        echo "Kategori Berdasarkan DIKTI";
-                      }else{
-                        echo "Kategori Biasa";
-                      }?>
-                    </td>
-                    <td>
-                      <?php if ($kegiatan->status == 0) :?>
-                        <?php if (count($tugasinbelom) > 0) :?>
-                          <?php if ($lihatjabatan->idjabatan == 1 || $lihatjabatan->idjabatan == 5) :?>
-                            <?php echo anchor('kajur/kategorikegiatan/delete/'.$row->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
-                          <?php endif; ?>
-                        <?php endif; ?>
-                      <?php endif; ?>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-          </div>
-
-
-        </div>
-
-      </div>
+     
     <?php endif; ?>
 
   <?php endif; ?>
@@ -696,7 +636,7 @@
 
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
+              <input type="text" maxlength="10" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
               <label for="pakhir">Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)</label>
             </div>
           </div>
@@ -763,7 +703,7 @@
 
           <div class="form-group">
             <div class="form-label-group">
-              <input type="text" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
+              <input type="text" maxlength="10" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
               <label for="pakhir">Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)</label>
             </div>
           </div>
@@ -854,7 +794,7 @@
 
       <div class="form-group">
         <div class="form-label-group">
-          <input type="text" name="ket" id="ket" class="form-control" placeholder="Keterangan/Orang yang bersangkutan">
+          <input type="text" maxlength="100" name="ket" id="ket" class="form-control" placeholder="Keterangan/Orang yang bersangkutan">
           <label for="ket">Keterangan/Orang yang bersangkutan</label>
         </div>
       </div>

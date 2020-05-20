@@ -54,13 +54,13 @@
                 
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="nama" id="nama" value="<?php echo $colab->nama; ?>" class="form-control" placeholder="Kategori" required="required">
+                    <input type="text" maxlength="100" name="nama" id="nama" value="<?php echo $colab->nama; ?>" class="form-control" placeholder="Kategori" required="required">
                     <label for="nama">Jenis Kolaborasi</label>
                   </div>
                 </div>
                 
-              <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" /> | 
-              <?php echo anchor('kajur/kolaborasi/delete/'.$colab->id,'<i class="fa fa-trash"></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+              <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="SIMPAN" /> | 
+              <?php echo anchor('kajur/kolaborasi/delete/'.$colab->id,'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger') ); ?>
             </form>
           
         </div>

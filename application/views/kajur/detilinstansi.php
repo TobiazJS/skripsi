@@ -53,7 +53,7 @@
                 <input type="hidden" name="id" id="id" value="<?=$detilInstansi['id']?>" class="form-control" placeholder="id" required="required">
                 <div class="form-group">
                   <div class="form-label-group">
-                    <input type="text" name="nama" id="nama" value="<?=$detilInstansi['nama']?>" class="form-control" placeholder="Nama" required="required">
+                    <input type="text" maxlength="60" name="nama" id="nama" value="<?=$detilInstansi['nama']?>" class="form-control" placeholder="Nama" required="required">
                     <label for="nama">Nama</label>
                   </div>
                 </div>
@@ -80,8 +80,8 @@
                   </select>
                 </div>
               </div>
-              <input id="submit" name="submit" type="submit" class="btn btn-primary" value="EDIT" /> | 
-              <?php echo anchor('kajur/instansi/delete/'.$detilInstansi['id'],'Hapus'); ?>
+              <input id="submit" name="submit" type="submit" class="form-group btn btn-primary" value="SIMPAN" /> | 
+              <?php echo anchor('kajur/instansi/delete/'.$detilInstansi['id'],'Hapus', array('onclick' => "return confirm('Yakin ingin menghapus?')",'class'=>'form-group btn btn-danger') ); ?>
             </form>
           <?php endif; ?>
         </div>

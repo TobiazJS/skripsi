@@ -68,7 +68,7 @@
                     <th>NIK</th>
                     <th>Email</th>
                     <th>Jabatan Dosen</th>
-                    <th>Penugasan Belum Selesai</th>
+                    <th>PenugasanBelum Selesai</th>
                     <th>Detail</th>
                   </tr>
                 </tfoot>
@@ -144,25 +144,25 @@
 
             <div class="form-group">
               <div class="form-label-group">
-                <input type="text" name="nik" id="nik" class="form-control" placeholder="NIK" required="required">
+                <input type="text" maxlength="10" name="nik" id="nik" class="form-control" placeholder="NIK" required="required">
                 <label for="nik">NIK</label>
               </div>
             </div>
             <div class="form-group">
               <div class="form-label-group">
-                <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama" required="required">
+                <input type="text" maxlength="40" name="nama"  id="nama" class="form-control" placeholder="Nama" required="required">
                 <label for="nama">Nama</label>
               </div>
             </div>
             <div class="form-group">
               <div class="form-label-group">
-                <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="required">
+                <input type="email" maxlength="50" name="email" id="email" class="form-control" placeholder="Email" required="required">
                 <label for="email">Email</label>
               </div>
             </div>
             <div class="form-group">
               <div class="form-label-group">
-                <input type="text" name="password" id="password" class="form-control" placeholder="Password" required="required">
+                <input type="text" maxlength="10" name="password" id="password" class="form-control" placeholder="Password" required="required">
                 <label for="password">Password</label>
               </div>
 

@@ -77,7 +77,7 @@
                     <tr>
                       <td><?=  $row->nama ?></td>
                       <td><?php echo anchor('kajur/detiljabatan/'.$row->id,'Detail'); ?> | 
-                        <?php echo anchor('kajur/jabatan/delete/'.$row->id,'<i class="fa fa-trash"></i>'); ?>
+                        <?php echo anchor('kajur/jabatan/delete/'.$row->id, '<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -125,7 +125,7 @@
           <form method="post" action="<?php echo base_url(). '/kajur/jabatan/insert'; ?>">
             <div class="form-group">
               <div class="form-label-group">
-                <input type="text" name="nama" id="jabatan" class="form-control" placeholder="Jabatan" required="required">
+                <input type="text" maxlength="25" name="nama" id="jabatan" class="form-control" placeholder="Jabatan" required="required">
                 <label for="jabatan">Jabatan</label>
               </div>
             </div>
