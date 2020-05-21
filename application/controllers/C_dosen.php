@@ -395,7 +395,7 @@ class C_dosen extends CI_Controller {
        	$this->auth->doAuth();
        	$this->load->model('M_Dokumen');
        	$dokumen = $this->M_Dokumen->detil($id);
-       	$this->load->view('kajur/detildokumen.php',[
+       	$this->load->view('dosen/detildokumen.php',[
        		'dokumen' => $dokumen,
        		'topbar' => $this->load->view('kajur/topbar',[],true),
        		'sidebar' => $this->load->view('dosen/sidebar',[
@@ -484,7 +484,7 @@ class C_dosen extends CI_Controller {
        	$penugasan = $this->M_Penugasan->detil($id);
        	$jabatan = $this->M_Jabatan->all();
        	$dosen = $this->M_Dosen->all();
-       	$this->load->view('kajur/detilpenugasan.php',[
+       	$this->load->view('dosen/detilpenugasan.php',[
        		'penugasan' => $penugasan,
        		'jabatan' => $jabatan,
        		'dosen' => $dosen,
@@ -499,12 +499,6 @@ class C_dosen extends CI_Controller {
        	$this->auth->doAuth();
        	$this->load->model('M_Penugasan');
        	$data = array(
-			// 'nama' => $this->input->post('nama'),
-			// 'deskripsi' => $this->input->post('deskripsi'),
-			// 'tempat' => $this->input->post('tempat'),
-			// 'tanggal_mulai' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_mulai'))),
-			// 'tanggal_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_akhir'))),
-			// 'jenis' => $this->input->post('jenis')
        		'id_dosen' =>$this->input->post('dosen'),
        		'id_jabatan' => $this->input->post('jabatan')
        	);

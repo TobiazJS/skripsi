@@ -117,7 +117,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
               </span>
               <select class="form-control" id="colab" name="colab">
-                <option value="<?=$kegiatan->jenis?>" selected>
+                <option value="<?=$kegiatan->instansilain?>" selected>
                   <?php if ($kegiatan->instansilain == 0) :  ?>
                     <?php echo "Tidak"?>
                   <?php endif; ?>
@@ -438,7 +438,12 @@
                 </td>
                 <td>
                   <?php 
-                    echo $row->ket;
+                    if($row->ket == NULL || $row->ket == ""){
+                      echo '-';
+                    }else{
+                      echo $row->ket;
+                    }
+                    
                   ?>
                 </td>
                 <td>

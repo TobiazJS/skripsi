@@ -41,9 +41,9 @@
     <div id="content-wrapper">
       <?php if($this->session->flashdata('edit')): ?>
        <?php if($this->session->flashdata('edit') == TRUE): ?>
-        <div class="alert alert-success">Berhasil update data pengguna</div>
+        <div class="alert alert-success">Berhasil update data penugasan</div>
         <?php elseif($this->session->flashdata('edit') == FALSE): ?>
-          <div class="alert alert-danger">Gagal update data pengguna</div>
+          <div class="alert alert-danger">Gagal update data penugasan</div>
         <?php endif; ?>
       <?php endif; ?>
 
