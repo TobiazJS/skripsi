@@ -58,9 +58,11 @@
 
             <form method="post" action="<?php echo base_url(). 'kajur/kegiatan/acc/'.$kegiatan->idkegiatan; ?>">
               <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->idkegiatan; ?>" class="form-control" placeholder="id" required="required">
+              <input type="hidden" name="iddosen" id="iddosen" value="<?php echo $kegiatan->iddosen; ?>" class="form-control" placeholder="id" required="required">
+              <input type="hidden" name="namekegiatan" id="namekegiatan" value="<?php echo $kegiatan->namakegiatan; ?>" class="form-control" placeholder="Nama Kegiatan" required="required">
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" name="nik" id="nama" value="<?php echo $kegiatan->namakegiatan; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
+                  <input type="text" name="nama" id="nama" value="<?php echo $kegiatan->namakegiatan; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
                   <label for="nama">Nama Kegiatan</label>
                 </div>
               </div>

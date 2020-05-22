@@ -634,7 +634,7 @@
             <!-- form -->
             <form method="post" action="<?php echo base_url() . 'dosenpenugasan/insert'; ?>" enctype="multipart/form-data">
               <input type="hidden" name="id" id="id" value="<?php echo $kegiatan->id; ?>" class="form-control" placeholder="id" required="required">
-
+              <input type="hidden" name="namekegiatan" id="namakegiatan" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required">
               <div class="form-group">
                 <div class="form-label-group">
                   <input type="text" name="namakegiatan" id="namakegiatan" value="<?php echo $kegiatan->nama; ?>" class="form-control" placeholder="Nama Kegiatan" required="required" disabled>
