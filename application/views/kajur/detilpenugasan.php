@@ -66,18 +66,13 @@
               </div>
 
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Dosen</label>
-                <div class="input-group">
-                  <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-                  </span>
-                  <select class="form-control" id="dosen" name="dosen">
-                    <option value="<?= $penugasan->iddosen ?>" selected><?php echo $penugasan->namadosen; ?></option>
-                    <?php foreach ($dosen as $row) : ?>
-                      <option value="<?php echo $row->id; ?>"><?php echo $row->nama; ?></option>
-                    <?php endforeach; ?>
-                  </select>
+                <div class="form-label-group">
+                  <input type="text" name="dosen" id="dosen" value="<?php echo $penugasan->namadosen; ?>" class="form-control" placeholder="Nama Dosen" required="required" disabled>
+                  <label for="dosen">Nama Dosen</label>
                 </div>
               </div>
+
+
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Jabatan</label>

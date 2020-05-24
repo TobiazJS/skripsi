@@ -177,15 +177,15 @@
                       </td>
                       <td><?= $row->namajabatan ?></td>
                       <td>
-                        <?php if ($row->status == 0) :  ?>
+                        <?php if ($row->konfirmasi == 0) :  ?>
                           <?php echo "Belum Dikonfirmasi" ?>
                         <?php endif; ?>
 
-                        <?php if ($row->status == 1) :  ?>
+                        <?php if ($row->konfirmasi == 1) :  ?>
                           <?php echo "Sudah Dikonfirmasi" ?>
                         <?php endif; ?>
 
-                        <?php if ($row->status == 2) :  ?>
+                        <?php if ($row->konfirmasi == 2) :  ?>
                           <?php echo "Ditolak" ?>
                         <?php endif; ?>
                       </td>

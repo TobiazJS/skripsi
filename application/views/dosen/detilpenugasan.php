@@ -39,10 +39,10 @@
     <?= $sidebar ?>
 
     <div id="content-wrapper">
-      <?php if($this->session->flashdata('edit')): ?>
-       <?php if($this->session->flashdata('edit') == TRUE): ?>
-        <div class="alert alert-success">Berhasil update data penugasan</div>
-        <?php elseif($this->session->flashdata('edit') == FALSE): ?>
+      <?php if ($this->session->flashdata('edit')) : ?>
+        <?php if ($this->session->flashdata('edit') == TRUE) : ?>
+          <div class="alert alert-success">Berhasil update data penugasan</div>
+        <?php elseif ($this->session->flashdata('edit') == FALSE) : ?>
           <div class="alert alert-danger">Gagal update data penugasan</div>
         <?php endif; ?>
       <?php endif; ?>
@@ -53,10 +53,10 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-user"></i>
-          Ubah Data Penugasan</div>
+            Ubah Data Penugasan</div>
           <div class="card-body">
 
-            <form method="post" action="<?php echo base_url(). 'dosenpenugasan/edit/'.$penugasan->idpenugasan; ?>">
+            <form method="post" action="<?php echo base_url() . 'dosenpenugasan/edit/' . $penugasan->idpenugasan; ?>">
               <input type="hidden" name="id" id="id" value="<?php echo $penugasan->idpenugasan; ?>" class="form-control" placeholder="id" required="required">
               <div class="form-group">
                 <div class="form-label-group">
@@ -64,84 +64,81 @@
                   <label for="nama">Nama Kegiatan</label>
                 </div>
               </div>
-              
+
+
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Dosen</label>
+                <div class="form-label-group">
+                  <input type="text" name="nik" id="nama" value="<?php echo $penugasan->namadosen; ?>" class="form-control" placeholder="Nama Dosen" required="required" disabled>
+                  <label for="nama">Nama Dosen</label>
+                </div>
+              </div>
+
+
+              
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Jabatan</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-                </span>
-                <select class="form-control" id="dosen" name="dosen">
-                  <option value="<?=$penugasan->iddosen?>" selected><?php echo $penugasan->namadosen;?></option>
-                  <?php foreach ($dosen as $row) :?>
-                    <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
-                  <?php endforeach;?>
-                </select>
+                  </span>
+                  <select class="form-control" id="jabatan" name="jabatan">
+                    <option value="<?= $penugasan->idjabatan ?>" selected><?php echo $penugasan->namajabatan; ?></option>
+                    <?php foreach ($jabatan as $row) : ?>
+                      <option value="<?php echo $row->id; ?>"><?php echo $row->nama; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
               </div>
-            </div>
 
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Jabatan</label>
-              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-              </span>
-              <select class="form-control" id="jabatan" name="jabatan">
-                <option value="<?=$penugasan->idjabatan?>" selected><?php echo $penugasan->namajabatan;?></option>
-                <?php foreach ($jabatan as $row) :?>
-                  <option value="<?php echo $row->id;?>"><?php echo $row->nama;?></option>
-                <?php endforeach;?>
-              </select>
-            </div>
+              <input id="submit" name="submit" type="submit" class="btn btn-primary form-group" value="SIMPAN" />
+            </form>
+
           </div>
 
-          <input id="submit" name="submit" type="submit" class="btn btn-primary form-group" value="SIMPAN" />
-        </form>
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2019</span>
+            </div>
+          </div>
+        </footer>
 
       </div>
+      <!-- /.content-wrapper -->
 
     </div>
-    <!-- /.container-fluid -->
+    <!-- /#wrapper -->
 
-    <!-- Sticky Footer -->
-    <footer class="sticky-footer">
-      <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-          <span>Copyright © Your Website 2019</span>
-        </div>
-      </div>
-    </footer>
-
-  </div>
-  <!-- /.content-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
-</a>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
 
 
 
-<!-- Bootstrap core JavaScript-->
-<script type='text/javascript' src="<?php echo base_url(); ?>js/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendor/jquery/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script type='text/javascript' src="<?php echo base_url(); ?>js/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="<?php echo base_url(); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="<?php echo base_url(); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Page level plugin JavaScript-->
-<script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
-<!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
+    <!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
   <script src="<?php echo base_url(); ?>vendor/datatables/dataTables.bootstrap4.js"></script> -->
 
-  <!-- Custom scripts for all pages-->
-  <script src="<?php echo base_url(); ?>js/sb-admin.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="<?php echo base_url(); ?>js/sb-admin.min.js"></script>
 
-  <!-- Demo scripts for this page-->
-  <script src="<?php echo base_url(); ?>js/demo/datatables-demo.js"></script>
-  <script src="<?php echo base_url(); ?>js/demo/chart-area-demo.js"></script>
+    <!-- Demo scripts for this page-->
+    <script src="<?php echo base_url(); ?>js/demo/datatables-demo.js"></script>
+    <script src="<?php echo base_url(); ?>js/demo/chart-area-demo.js"></script>
 
 </body>
 

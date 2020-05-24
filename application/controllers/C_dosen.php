@@ -144,8 +144,13 @@ class C_dosen extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$instansiDalam = $this->M_Instansi->all(0);
+		$cnt = array();
+		foreach ($instansiDalam as $id) {
+			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi'=>$id->id))->result()));
+		}
 		$this->load->view('dosen/instansi.php', [
 			'instansi' => $instansiDalam,
+			'cnt' => $cnt,
 			'ses' => 0,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('dosen/sidebar', [
@@ -159,8 +164,13 @@ class C_dosen extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$instansiDalam = $this->M_Instansi->all(1);
+		$cnt = array();
+		foreach ($instansiDalam as $id) {
+			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi'=>$id->id))->result()));
+		}
 		$this->load->view('dosen/instansi.php', [
 			'instansi' => $instansiDalam,
+			'cnt' => $cnt,
 			'ses' => 1,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('dosen/sidebar', [
@@ -174,8 +184,13 @@ class C_dosen extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$detilInstansi = $this->M_Instansi->detil($id);
+		$riwayat = $this->db->get_where('kerjasama_acara', array('idinstansi'=>$id))->result();
+		$this->db->order_by('status', 'asc');
+		$cnt = count($riwayat);
 		$this->load->view('dosen/detilinstansi.php', [
 			'detilInstansi' => $detilInstansi,
+			'riwayat' => $riwayat,
+			'cnt' => $cnt,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('dosen/sidebar', [
 				'nama_hal' => 'instansi'
@@ -662,7 +677,7 @@ class C_dosen extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Penugasan');
 		$data = array(
-			'id_dosen' => $this->input->post('dosen'),
+			//'id_dosen' => $this->input->post('dosen'),
 			'id_jabatan' => $this->input->post('jabatan')
 		);
 

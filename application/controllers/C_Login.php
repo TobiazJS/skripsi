@@ -1,19 +1,20 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class C_Login extends CI_Controller {
+class C_Login extends CI_Controller
+{
 
 	function __construct()
 	{
-		parent::__construct(); 
+		parent::__construct();
 
-		$this->load->model('M_Dosen');    
+		$this->load->model('M_Dosen');
 
 		$this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
 		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 		$this->output->set_header('Pragma: no-cache');
-		$this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");    
+		$this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	}
 
 	//LOGIN
@@ -22,27 +23,25 @@ class C_Login extends CI_Controller {
 	{
 		$this->load->library('session');
 		$method = $this->input->method();
-		if($method == 'post'){
+		if ($method == 'post') {
 			$email = $this->input->post('email');
 			$password = $this->input->post('password');
-			$data = $this->M_Dosen->isExist($email,$password);
-			if(count($data) === 1){
+			$data = $this->M_Dosen->isExist($email, $password);
+			if (count($data) === 1) {
 				$this->session->set_userdata([
 					'email' => $email
 				]);
 
 
-				echo 'ini username '.$email.'<br>';
+				echo 'ini username ' . $email . '<br>';
 				//print_r($data);
-				
-				if ($data[0]->role == 0) {	
+
+				if ($data[0]->role == 0) {
 					redirect('/kajur/kegiatan/undone');
-					
-				}else if ($data[0]->role == 1) {
+				} else if ($data[0]->role == 1) {
 
 					redirect('/dosen/kegiatan');
-
-				 }//else if ($data[0]->status == 3) {
+				} //else if ($data[0]->status == 3) {
 
 				// 	redirect('/cs/pesanmasuk');
 
@@ -51,29 +50,29 @@ class C_Login extends CI_Controller {
 				// 	redirect('/admin/pegawai');					
 				// }
 
-				 }else{
-				 	echo "Akun Tidak Ditemukan";
-				 	redirect('/');
-				 }
-				}else{
-					$this->load->view('login');
-				}
+			} else {
+				echo "Akun Tidak Ditemukan";
+				redirect('/');
 			}
+		} else {
+			$this->load->view('login');
+		}
+	}
 
 
 	//LOGOUT
 
-			public function logout(){
-				$newdata = array(
-					'username'  =>'',
-					'password' => '',
-					'logged_in' => FALSE,
-				);
+	public function logout()
+	{
+		$newdata = array(
+			'username'  => '',
+			'password' => '',
+			'logged_in' => FALSE,
+		);
 
-				$this->session->unset_userdata('username');
-				$this->session->sess_destroy();
+		$this->session->unset_userdata('username');
+		$this->session->sess_destroy();
 
-				redirect(base_url(),'refresh');
-
-			}
-		}
+		redirect(base_url(), 'refresh');
+	}
+}

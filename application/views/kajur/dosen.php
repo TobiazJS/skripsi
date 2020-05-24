@@ -68,7 +68,7 @@
                     <th>NIK</th>
                     <th>Email</th>
                     <th>Jabatan Dosen</th>
-                    <th>PenugasanBelum Selesai</th>
+                    <th>Penugasan Belum Selesai</th>
                     <th>Detail</th>
                   </tr>
                 </tfoot>

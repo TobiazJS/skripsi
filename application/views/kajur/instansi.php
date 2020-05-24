@@ -39,11 +39,11 @@
     <?= $sidebar ?>
 
     <div id="content-wrapper">
-      <?php if($this->session->flashdata('delete')): ?>
-       <?php if($this->session->flashdata('delete') == TRUE): ?>
-        <div class="alert alert-success">Berhasil hapus data instansi</div>
-        <?php elseif($this->session->flashdata('delete') == FALSE): ?>
-          <div class="alert alert-danger">Gagal menghapus</div>  
+      <?php if ($this->session->flashdata('delete')) : ?>
+        <?php if ($this->session->flashdata('delete') == TRUE) : ?>
+          <div class="alert alert-success">Berhasil hapus data instansi</div>
+        <?php elseif ($this->session->flashdata('delete') == FALSE) : ?>
+          <div class="alert alert-danger">Gagal menghapus</div>
         <?php endif; ?>
       <?php endif; ?>
 
@@ -53,10 +53,10 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            <?php if($ses == 0) :?>
+            <?php if ($ses == 0) : ?>
               Data Instansi Dalam Negeri yang Bekerjasama dengan Informatika UNPAR
             <?php endif; ?>
-            <?php if($ses == 1) :?>
+            <?php if ($ses == 1) : ?>
               Data Instansi Luar Negeri yang Bekerjasama dengan Informatika UNPAR
             <?php endif; ?>
             <a class="btn btn-primary " href="#" data-toggle="modal" data-target="#insert">Tambah Instansi</a>
@@ -68,6 +68,7 @@
                   <tr>
                     <th>Nama Instansi</th>
                     <th>Jenis Instansi</th>
+                    <th>Total Kerjasama</th>
                     <th>Detail</th>
                   </tr>
                 </thead>
@@ -75,28 +76,32 @@
                   <tr>
                     <th>Nama Instansi</th>
                     <th>Jenis Instansi</th>
+                    <th>Total Kerjasama</th>
                     <th>Detail</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  <?php foreach($instansi as $row): ?>
+                  <?php $i = 0; ?>
+                  <?php foreach ($instansi as $row) : ?>
                     <?php $instansi = $row->id ?>
                     <tr>
-                      <td><?=  $row->nama ?></td>
+                      <td><?= $row->nama ?></td>
                       <td>
                         <?php if ($row->jenis == 0) :  ?>
-                          <?php echo "Dalam Negeri"?>
+                          <?php echo "Dalam Negeri" ?>
                         <?php endif; ?>
 
                         <?php if ($row->jenis == 1) :  ?>
-                          <?php echo "Luar Negeri"?>
+                          <?php echo "Luar Negeri" ?>
                         <?php endif; ?>
 
                       </td>
-                      <td><?php echo anchor('kajur/detilinstansi/'.$row->id,'Detail'); ?> | 
-                        <?php echo anchor('kajur/instansi/delete/'.$row->id, '<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
+                      <td><?= $cnt[$i].' kerjasama' ?></td>
+                      <td><?php echo anchor('kajur/detilinstansi/' . $row->id, 'Detail'); ?> |
+                        <?php echo anchor('kajur/instansi/delete/' . $row->id, '<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                       </td>
                     </tr>
+                    <?php $i++ ?>
                   <?php endforeach; ?>
                 </tbody>
               </table>
@@ -139,7 +144,7 @@
         </div>
         <div class="modal-body">
           <!-- form -->
-          <form method="post" action="<?php echo base_url(). '/kajur/instansi/insert'; ?>">
+          <form method="post" action="<?php echo base_url() . '/kajur/instansi/insert'; ?>">
 
 
 
@@ -155,36 +160,36 @@
                 <label for="exampleFormControlSelect1">Jenis Instansi</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span>
-                </span>
-                <select class="form-control" id="jenis" name="jenis">
-                  <option value="1" id="2" name="1">Instansi Luar Negeri</option>
-                  <option value="0" id="1" name="0">Instansi Dalam Negeri</option>
-                </select>
+                  </span>
+                  <select class="form-control" id="jenis" name="jenis">
+                    <option value="1" id="2" name="1">Instansi Luar Negeri</option>
+                    <option value="0" id="1" name="0">Instansi Dalam Negeri</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
         </div>
 
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <input id="submit" name="submit" type="submit" class="btn btn-primary" value="SUBMIT" />
         </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Bootstrap core JavaScript-->
-<script type='text/javascript' src="<?php echo base_url(); ?>js/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendor/jquery/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap core JavaScript-->
+  <script type='text/javascript' src="<?php echo base_url(); ?>js/jquery.min.js"></script>
+  <script src="<?php echo base_url(); ?>vendor/jquery/jquery.min.js"></script>
+  <script src="<?php echo base_url(); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="<?php echo base_url(); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="<?php echo base_url(); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Page level plugin JavaScript-->
-<script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
-<!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
+  <!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
   <script src="<?php echo base_url(); ?>vendor/datatables/dataTables.bootstrap4.js"></script> -->
 
   <!-- Custom scripts for all pages-->

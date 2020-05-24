@@ -529,8 +529,14 @@ class C_kajur extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$instansiDalam = $this->M_Instansi->all(0);
+		$cnt = array();
+		foreach ($instansiDalam as $id) {
+			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi'=>$id->id))->result()));
+		}
+		//var_dump($cnt);
 		$this->load->view('kajur/instansi.php', [
 			'instansi' => $instansiDalam,
+			'cnt' => $cnt,
 			'ses' => 0,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('kajur/sidebar', [
@@ -544,8 +550,13 @@ class C_kajur extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$instansiDalam = $this->M_Instansi->all(1);
+		$cnt = array();
+		foreach ($instansiDalam as $id) {
+			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi'=>$id->id))->result()));
+		}
 		$this->load->view('kajur/instansi.php', [
 			'instansi' => $instansiDalam,
+			'cnt' => $cnt,
 			'ses' => 1,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('kajur/sidebar', [
@@ -559,8 +570,13 @@ class C_kajur extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$detilInstansi = $this->M_Instansi->detil($id);
+		$riwayat = $this->db->get_where('kerjasama_acara', array('idinstansi'=>$id))->result();
+		$this->db->order_by('status', 'asc');
+		$cnt = count($riwayat);
 		$this->load->view('kajur/detilinstansi.php', [
 			'detilInstansi' => $detilInstansi,
+			'riwayat' => $riwayat,
+			'cnt' => $cnt,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('kajur/sidebar', [
 				'nama_hal' => 'instansi'
@@ -844,7 +860,7 @@ class C_kajur extends CI_Controller
 			// 'tanggal_mulai' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_mulai'))),
 			// 'tanggal_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_akhir'))),
 			// 'jenis' => $this->input->post('jenis')
-			'id_dosen' => $this->input->post('dosen'),
+			//'id_dosen' => $this->input->post('dosen'),
 			'id_jabatan' => $this->input->post('jabatan')
 		);
 
