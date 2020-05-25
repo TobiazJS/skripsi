@@ -46,7 +46,7 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-user"></i>
-          Ubah Data Kategori</div>
+          Ubah Data Keterlibatan</div>
           <div class="card-body">
             
               <form method="post" action="<?php echo base_url(). '/kajur/kolaborasi/edit'; ?>">

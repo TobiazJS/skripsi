@@ -68,6 +68,7 @@
                   <tr>
                     <th>Nama Instansi</th>
                     <th>Jenis Instansi</th>
+                    <th>Total Kerjasama</th>
                     <th>Detail</th>
                   </tr>
                 </thead>
@@ -75,10 +76,12 @@
                   <tr>
                     <th>Nama Instansi</th>
                     <th>Jenis Instansi</th>
+                    <th>Total Kerjasama</th>
                     <th>Detail</th>
                   </tr>
                 </tfoot>
                 <tbody>
+                <?php $i = 0; ?>
                   <?php foreach($instansi as $row): ?>
                     <?php $instansi = $row->id ?>
                     <tr>
@@ -93,10 +96,12 @@
                         <?php endif; ?>
 
                       </td>
+                      <td><?= $cnt[$i].' kerjasama' ?></td>
                       <td><?php echo anchor('dosen/detilinstansi/'.$row->id,'Detail'); ?> | 
                         <?php echo anchor('dosen/instansi/delete/'.$row->id, '<i class="fa fa-trash" aria-hidden=""></i>', array('onclick' => "return confirm('Yakin ingin menghapus?')")); ?>
                       </td>
                     </tr>
+                    <?php $i++ ?>
                   <?php endforeach; ?>
                 </tbody>
               </table>

@@ -53,7 +53,7 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-user"></i>
-          Ubah Data Kegiatan</div>
+          Pengajuan Kegiatan</div>
           <div class="card-body">
 
             <form method="post" action="<?php echo base_url(). 'kajur/kegiatan/acc/'.$kegiatan->idkegiatan; ?>">
