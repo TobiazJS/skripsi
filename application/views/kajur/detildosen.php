@@ -83,7 +83,7 @@
                     <select class="form-control" id="status" name="role">
                       <option value="<?= $detilDosen['role'] ?>" selected>
                         <?php if ($detilDosen['role'] == 0) :  ?>
-                          <?php echo "Ketua Jurusan/Super Admin" ?>
+                          <?php echo "Ketua Jurusan" ?>
                         <?php endif; ?>
 
                         <?php if ($detilDosen['role'] == 1) :  ?>
@@ -93,7 +93,7 @@
                       <option value="1" id="" name="1">Dosen</option>
 
 
-                      <option value="0" id="" name="0">Super Admin</option>
+                      <option value="0" id="" name="0">Ketua Jurusan</option>
 
                     </select>
                   </div>

@@ -82,7 +82,7 @@
                       <td><?= $row->email ?></td>
                       <td>
                         <?php if ($row->role == 0) :  ?>
-                          <?php echo "Ketua Jurusan/Super Admin" ?>
+                          <?php echo "Ketua Jurusan" ?>
                         <?php endif; ?>
 
                         <?php if ($row->role == 1) :  ?>
@@ -176,7 +176,7 @@
                   </span>
                   <select class="form-control" id="status" name="role">
                     <option value="1" id="2" name="1">Dosen</option>
-                    <option value="0" id="1" name="0">Super Admin</option>
+                    <option value="0" id="1" name="0">Ketua Jurusan</option>
                   </select>
                 </div>
               </div>

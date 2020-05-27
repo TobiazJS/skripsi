@@ -216,6 +216,7 @@ class C_kajur extends CI_Controller
 		$this->load->view('kajur/kegiatan.php', [
 			'kegiatan' => $kegiatan,
 			'ses' => 0,
+			'search' => 0,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('kajur/sidebar', [
 				'nama_hal' => 'kegiatan'
@@ -232,6 +233,7 @@ class C_kajur extends CI_Controller
 		$this->load->view('kajur/kegiatan.php', [
 			'kegiatan' => $kegiatan,
 			'ses' => 1,
+			'search' => 0,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('kajur/sidebar', [
 				'nama_hal' => 'kegiatan'
@@ -260,9 +262,12 @@ class C_kajur extends CI_Controller
 		}
 
 		$kegiatan = $this->M_Kegiatan->search($this->input->post('key'), $start, $end, $status, 1, $jenis, $mahasiswa, $biaya);
+		$cnt = count($kegiatan);
 		$this->load->view('kajur/kegiatan.php', [
 			'kegiatan' => $kegiatan,
 			'ses' => $status,
+			'search' => 1,
+			'cnt' => $cnt,
 			'topbar' => $this->load->view('kajur/topbar', [], true),
 			'sidebar' => $this->load->view('kajur/sidebar', [
 				'nama_hal' => 'kegiatan'
@@ -471,15 +476,15 @@ class C_kajur extends CI_Controller
 		$idkegiatan = $this->input->post('id');
 		$config = array(
 			'mailtype'  => 'html',
-            'charset'   => 'utf-8',
-            'protocol'  => 'smtp',
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_user' => 'tobiasjaya3@gmail.com',  // Email gmail
-            'smtp_pass'   => 'apalotot',  // Password gmail
-            'smtp_crypto' => 'ssl',
-            'smtp_port'   => 465,
-            'crlf'    => "\r\n",
-            'newline' => "\r\n"
+			'charset'   => 'utf-8',
+			'protocol'  => 'smtp',
+			'smtp_host' => 'smtp.gmail.com',
+			'smtp_user' => 'tobiasjaya3@gmail.com',  // Email gmail
+			'smtp_pass'   => 'apalotot',  // Password gmail
+			'smtp_crypto' => 'ssl',
+			'smtp_port'   => 465,
+			'crlf'    => "\r\n",
+			'newline' => "\r\n"
 		);
 
 		$this->load->library('email', $config);
@@ -487,14 +492,14 @@ class C_kajur extends CI_Controller
 
 		$this->email->from('tobiasjaya3@gmail.com', 'SI pengelolaan kegiatan IF UNPAR');
 		$this->email->to('tobiasjaya3@gmail.com');
-		$this->email->subject('Status Konfirmasi Kegiatan '.$namakegiatan);
+		$this->email->subject('Status Konfirmasi Kegiatan ' . $namakegiatan);
 		$konfirmasi = "";
-		if($this->input->post('konfirmasi')==1){
+		if ($this->input->post('konfirmasi') == 1) {
 			$konfirmasi = "diterima";
-		}else{
+		} else {
 			$konfirmasi = "ditolak";
 		}
-		$this->email->message('Pengajuan kegiatan anda, "'.$namakegiatan.'" telah '.$konfirmasi.'. Pergi ke halaman http://localhost/skripsi/dosen/detilkegiatan/'.$idkegiatan.' untuk melihat detailnya.');
+		$this->email->message('Pengajuan kegiatan anda, "' . $namakegiatan . '" telah ' . $konfirmasi . '. Pergi ke halaman http://localhost/skripsi/dosen/detilkegiatan/' . $idkegiatan . ' untuk melihat detailnya.');
 		//Send mail 
 		//print_r($this->email->send());
 		if ($this->email->send()) {
@@ -513,12 +518,25 @@ class C_kajur extends CI_Controller
 	{
 		$this->auth->doAuth();
 		$this->load->model('M_Kegiatan');
-		if ($this->M_Kegiatan->selesai($id) == TRUE) {
-			$this->session->set_flashdata('selesai', true);
+		$selesai = $this->db->get_where('kegiatan', array('id' => $id))->row();
+		//var_dump(json_encode($selesai->tanggal_akhir));
+		date_default_timezone_set('Asia/Jakarta');
+		$now = date('Y-m-d');
+		
+		if ($now > $selesai->tanggal_akhir) {
+			
+			if ($this->M_Kegiatan->selesai($id) == TRUE) {
+				$this->session->set_flashdata('selesai', true);
+				redirect('kajur/kegiatan/terlaksana', 'refresh');
+			}else{
+				echo $this->session->set_flashdata('selesai', false);
+			}
 		} else {
-			$this->session->set_flashdata('selesai', false);
+			echo 'KEGIATAN INI BELUM SELESAI !! </br>';
+			echo anchor('kajur/detilkegiatan/' . $id, 'Kembali');
+			//redirect('kajur/detilkegiatan/' . $id, 'refresh');
 		}
-		redirect('kajur/kegiatan/terlaksana', 'refresh');
+		
 	}
 
 	//end kegiatan
@@ -531,7 +549,7 @@ class C_kajur extends CI_Controller
 		$instansiDalam = $this->M_Instansi->all(0);
 		$cnt = array();
 		foreach ($instansiDalam as $id) {
-			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi'=>$id->id))->result()));
+			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi' => $id->id))->result()));
 		}
 		//var_dump($cnt);
 		$this->load->view('kajur/instansi.php', [
@@ -552,7 +570,7 @@ class C_kajur extends CI_Controller
 		$instansiDalam = $this->M_Instansi->all(1);
 		$cnt = array();
 		foreach ($instansiDalam as $id) {
-			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi'=>$id->id))->result()));
+			array_push($cnt, count($this->db->get_where('kerjasama_acara', array('idinstansi' => $id->id))->result()));
 		}
 		$this->load->view('kajur/instansi.php', [
 			'instansi' => $instansiDalam,
@@ -570,7 +588,7 @@ class C_kajur extends CI_Controller
 		$this->auth->doAuth();
 		$this->load->model('M_Instansi');
 		$detilInstansi = $this->M_Instansi->detil($id);
-		$riwayat = $this->db->get_where('kerjasama_acara', array('idinstansi'=>$id))->result();
+		$riwayat = $this->db->get_where('kerjasama_acara', array('idinstansi' => $id))->result();
 		$this->db->order_by('status', 'asc');
 		$cnt = count($riwayat);
 		$this->load->view('kajur/detilinstansi.php', [
@@ -752,7 +770,7 @@ class C_kajur extends CI_Controller
 			'id_dosen' => $this->input->post('dosen'),
 			'id_jabatan' => $this->input->post('jabatan')
 		);
-		
+
 		//var_dump(json_encode($data));
 
 		if ($this->M_Penugasan->insert($data) == TRUE) {
@@ -770,15 +788,15 @@ class C_kajur extends CI_Controller
 		$idkegiatan = $this->input->post('id');
 		$config = array(
 			'mailtype'  => 'html',
-            'charset'   => 'utf-8',
-            'protocol'  => 'smtp',
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_user' => 'tobiasjaya3@gmail.com',  // Email gmail
-            'smtp_pass'   => 'apalotot',  // Password gmail
-            'smtp_crypto' => 'ssl',
-            'smtp_port'   => 465,
-            'crlf'    => "\r\n",
-            'newline' => "\r\n"
+			'charset'   => 'utf-8',
+			'protocol'  => 'smtp',
+			'smtp_host' => 'smtp.gmail.com',
+			'smtp_user' => 'tobiasjaya3@gmail.com',  // Email gmail
+			'smtp_pass'   => 'apalotot',  // Password gmail
+			'smtp_crypto' => 'ssl',
+			'smtp_port'   => 465,
+			'crlf'    => "\r\n",
+			'newline' => "\r\n"
 		);
 
 		$this->load->library('email', $config);
@@ -786,14 +804,14 @@ class C_kajur extends CI_Controller
 
 		$this->email->from('tobiasjaya3@gmail.com', 'SI pengelolaan kegiatan IF UNPAR');
 		$this->email->to('tobiasjaya3@gmail.com');
-		$this->email->subject('Penugasan Kegiatan '.$namakegiatan);
+		$this->email->subject('Penugasan Kegiatan ' . $namakegiatan);
 		$role = "";
-		if($email['role']==0){
+		if ($email['role'] == 0) {
 			$role = "kajur";
-		}else{
+		} else {
 			$role = "dosen";
 		}
-		$this->email->message('Anda telah ditugaskan di kegiatan "'.$namakegiatan.'". Pergi ke halaman http://localhost/skripsi/'.$role.'/detilkegiatan/'.$idkegiatan.' untuk melihat detailnya.');
+		$this->email->message('Anda telah ditugaskan di kegiatan "' . $namakegiatan . '". Pergi ke halaman http://localhost/skripsi/' . $role . '/detilkegiatan/' . $idkegiatan . ' untuk melihat detailnya.');
 		//Send mail 
 		//print_r($this->email->send());
 		if ($this->email->send()) {

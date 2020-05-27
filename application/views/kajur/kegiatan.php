@@ -207,6 +207,11 @@
 
 </div>
 <div class="table-responsive">
+<?php
+  if($search==1){
+    echo 'Jumlah Kegiatan: '.$cnt;
+  }
+?>
   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
     <thead>
       <tr>
