@@ -40,7 +40,7 @@
     <?= $sidebar ?>
 
     <div id="content-wrapper">
-    <?php if ($this->session->flashdata('selesai')) : ?>
+      <?php if ($this->session->flashdata('selesai')) : ?>
         <?php if ($this->session->flashdata('selesai') == TRUE) : ?>
           <div class="alert alert-success">Berhasil update data kegiatan</div>
         <?php elseif ($this->session->flashdata('selesai') == FALSE) : ?>
@@ -55,7 +55,7 @@
         <?php endif; ?>
       <?php endif; ?>
 
-      
+
 
       <div class="container-fluid">
 

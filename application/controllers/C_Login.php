@@ -52,6 +52,7 @@ class C_Login extends CI_Controller
 
 			} else {
 				echo "Akun Tidak Ditemukan";
+				$this->session->set_flashdata('failed', true);
 				redirect('/');
 			}
 		} else {

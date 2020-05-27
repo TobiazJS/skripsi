@@ -22,9 +22,16 @@
 
   <div class="container">
     <div class="card card-login mx-auto mt-5">
+      <?php if ($this->session->flashdata('failed')) : ?>
+        <?php if ($this->session->flashdata('failed') == TRUE) : ?>
+          <div class="alert alert-success">Username atau Password Salah</div>
+        <?php elseif ($this->session->flashdata('failed') == FALSE) : ?>
+          <div class="alert alert-danger">Gagal update data kegiatan</div>
+        <?php endif; ?>
+      <?php endif; ?>
       <div class="card-header">Login SI Pengelolaan Kegiatan IF UNPAR</div>
       <div class="card-body">
-        <form method="post" action="<?php echo base_url(). 'login' ?>">
+        <form method="post" action="<?php echo base_url() . 'login' ?>">
           <div class="form-group">
             <div class="form-label-group">
               <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
@@ -37,7 +44,7 @@
               <label for="inputPassword">Password</label>
             </div>
           </div>
-          
+
           <input type="submit" id="submit" class="btn btn-primary btn-block" name="submit" value="LOGIN">
         </form>
 
@@ -54,7 +61,7 @@
 
   <!-- Page level plugin JavaScript-->
   <script src="<?php echo base_url(); ?>vendor/chart.js/Chart.min.js"></script>
-<!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
+  <!--   <script src="<?php echo base_url(); ?>vendor/datatables/jquery.dataTables.js"></script>
   <script src="<?php echo base_url(); ?>vendor/datatables/dataTables.bootstrap4.js"></script> -->
 
   <!-- Custom scripts for all pages-->
