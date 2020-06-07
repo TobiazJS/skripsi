@@ -62,8 +62,8 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Data Kegiatan Informatika UNPAR
-              <a class="btn btn-primary " href="#" data-toggle="modal" data-target="#insert">Tambah Kegiatan</a>
+              Penugasan Kegiatan
+              <a class="btn btn-primary " href="#" data-toggle="modal" data-target="#insert">Mengajukan Kegiatan</a>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -137,7 +137,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Data Pengajuan Kegiatan Informatika UNPAR
+              Data Pengajuan Kegiatan
               <!-- <a class="btn btn-primary " href="#" data-toggle="modal" data-target="#insert">Tambah Kegiatan</a> -->
             </div>
             <div class="card-body">
@@ -316,7 +316,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Tambah Kegiatan</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Mengajukan Kegiatan</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -433,7 +433,7 @@
       $(function() {
         $("#awal").datepicker({
           numberOfMonths: 2,
-          minDate: 1,
+          minDate: 0,
           onSelect: function(selected) {
             var dt = new Date(selected);
             dt.setDate(dt.getDate() + 0);
@@ -442,7 +442,7 @@
         });
         $("#akhir").datepicker({
           numberOfMonths: 2,
-          minDate: 1,
+          minDate: 0,
           onSelect: function(selected) {
             var dt = new Date(selected);
             dt.setDate(dt.getDate() - 0);
@@ -452,7 +452,7 @@
 
         $("#pakhir").datepicker({
           numberOfMonths: 2,
-          minDate: 1,
+          minDate: 0,
           onSelect: function(selected) {
             var dt = new Date(selected);
             dt.setDate(dt.getDate() - 0);

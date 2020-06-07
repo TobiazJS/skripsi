@@ -76,13 +76,13 @@
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" maxlength="10" name="tanggal_mulai" id="awal" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_mulai)); ?>" class="form-control" placeholder="Tanggal Mulai(Bulan/Tanggal/Tahun)" required="required">
+                  <input type="text" maxlength="10" name="tanggal_mulai" id="awal" value="<?php echo date('M d Y', strtotime($kegiatan->tanggal_mulai)); ?>" class="form-control" placeholder="Tanggal Mulai(Bulan/Tanggal/Tahun)" required="required">
                   <label for="awal">Tanggal Mulai(Bulan/Tanggal/Tahun)</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" maxlength="12" name="tanggal_akhir" id="akhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai(Bulan/Tanggal/Tahun)" required="required">
+                  <input type="text" maxlength="12" name="tanggal_akhir" id="akhir" value="<?php echo date('M d Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai(Bulan/Tanggal/Tahun)" required="required">
                   <label for="akhir">Tanggal Selesai(Bulan/Tanggal/Tahun)</label>
                 </div>
               </div>
@@ -581,7 +581,7 @@
 
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" maxlength="10" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
+                  <input type="text" maxlength="10" name="periode_akhir" id="pakhir" value="<?php echo date('M d Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
                   <label for="pakhir">Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)</label>
                 </div>
               </div>
@@ -648,7 +648,7 @@
 
               <div class="form-group">
                 <div class="form-label-group">
-                  <input type="text" maxlength="10" name="periode_akhir" id="pakhir" value="<?php echo date('M d, Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
+                  <input type="text" maxlength="10" name="periode_akhir" id="p-akhir" value="<?php echo date('M d Y', strtotime($kegiatan->tanggal_akhir)); ?>" class="form-control" placeholder="Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)" required="required">
                   <label for="pakhir">Tanggal Selesai Penugasan(Bulan/Tanggal/Tahun)</label>
                 </div>
               </div>
@@ -942,7 +942,7 @@
       $(function() {
         $("#awal").datepicker({
           numberOfMonths: 2,
-          minDate: 1,
+          minDate: 0,
           onSelect: function(selected) {
             var dt = new Date(selected);
             dt.setDate(dt.getDate() + 0);
@@ -951,7 +951,7 @@
         });
         $("#akhir").datepicker({
           numberOfMonths: 2,
-          minDate: 1,
+          minDate: 0,
           onSelect: function(selected) {
             var dt = new Date(selected);
             dt.setDate(dt.getDate() - 0);
@@ -960,6 +960,16 @@
         });
 
         $("#pakhir").datepicker({
+          numberOfMonths: 2,
+          minDate: 1,
+          onSelect: function(selected) {
+            var dt = new Date(selected);
+            dt.setDate(dt.getDate() - 0);
+            $("#akhir").datepicker("option", "maxDate", dt);
+          }
+        });
+
+        $("#p-akhir").datepicker({
           numberOfMonths: 2,
           minDate: 1,
           onSelect: function(selected) {

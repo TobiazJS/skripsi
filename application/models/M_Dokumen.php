@@ -12,7 +12,7 @@ class M_Dokumen extends CI_Model {
   // Fungsi untuk melakukan proses upload file
   public function upload($filename){
     $config['upload_path'] = './upload/';
-    $config['allowed_types'] = 'jpg|jpeg|png|zip|rar|pdf|docs|xlsx';
+    $config['allowed_types'] = 'jpg|jpeg|png|zip|rar|pdf|docx|doc|xlsx';
     $config['max_size']  = '0';
     $config['remove_space'] = TRUE;
     $config['file_name'] = $filename;

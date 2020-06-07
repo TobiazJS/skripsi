@@ -287,6 +287,9 @@ class C_kajur extends CI_Controller
 		$this->load->model('M_Penugasan');
 		$this->load->model('M_Kategori');
 		$this->load->model('M_KategoriKegiatan');
+		if ($this->M_Kegiatan->detil($id)->row()->konfirmasi == 0) {
+			redirect('kajur/detilpengajuan/' . $id, 'refresh');
+		}
 		$detilKegiatan = $this->M_Kegiatan->detil($id);
 		$data['kegiatan'] = $this->M_Kegiatan->detil($id)->row();
 		$data['topbar'] = $this->load->view('kajur/topbar', [], true);
@@ -369,14 +372,105 @@ class C_kajur extends CI_Controller
 			'periode_akhir' => date('Y-m-d 00:00:00', strtotime($this->input->post('tanggal_akhir')))
 		);
 
-		if ($this->M_Kegiatan->edit($data, $id) == TRUE) {
-			$this->M_Kegiatan->editTanggalAkhir($data2, $id);
-			$this->M_Kegiatan->editTanggalAkhir2($data2, $id);
-			$this->session->set_flashdata('edit', true);
-		} else {
-			$this->session->set_flashdata('edit', false);
+		// $tglmulai = date('m/d/Y', strtotime($this->input->post('tanggal_mulai')));
+		// $tglakhir = date('m/d/Y', strtotime($this->input->post('tanggal_akhir')));
+		$tglmulai = $this->input->post('tanggal_mulai');
+		$tglakhir = $this->input->post('tanggal_akhir');
+		$reptglmulai = str_replace(" ", "/", $tglmulai);
+		$reptglakhir = str_replace(" ", "/", $tglakhir);
+		$formatmulai = array();
+		$formatakhir = array();
+		$formatmulai = (explode("/", $reptglmulai));
+		$formatakhir = (explode("/", $reptglakhir));
+
+		if ($formatmulai[0] == "Jan") {
+			$formatmulai[0] = "01";
+		} else if ($formatmulai[0] == "Feb") {
+			$formatmulai[0] = "02";
+		} else if ($formatmulai[0] == "Mar") {
+			$formatmulai[0] = "03";
+		} else if ($formatmulai[0] == "Apr") {
+			$formatmulai[0] = "04";
+		} else if ($formatmulai[0] == "May") {
+			$formatmulai[0] = "05";
+		} else if ($formatmulai[0] == "Jun") {
+			$formatmulai[0] = "06";
+		} else if ($formatmulai[0] == "Jul") {
+			$formatmulai[0] = "07";
+		} else if ($formatmulai[0] == "Aug") {
+			$formatmulai[0] = "08";
+		} else if ($formatmulai[0] == "Sep") {
+			$formatmulai[0] = "09";
+		} else if ($formatmulai[0] == "Oct") {
+			$formatmulai[0] = "10";
+		} else if ($formatmulai[0] == "Nov") {
+			$formatmulai[0] = "11";
+		} else if ($formatmulai[0] == "Dec") {
+			$formatmulai[0] = "12";
 		}
-		redirect('kajur/detilkegiatan/' . $id, 'refresh');
+
+		if ($formatakhir[0] == "Jan") {
+			$formatakhir[0] = "01";
+		} else if ($formatakhir[0] == "Feb") {
+			$formatakhir[0] = "02";
+		} else if ($formatakhir[0] == "Mar") {
+			$formatakhir[0] = "03";
+		} else if ($formatakhir[0] == "Apr") {
+			$formatakhir[0] = "04";
+		} else if ($formatakhir[0] == "May") {
+			$formatakhir[0] = "05";
+		} else if ($formatakhir[0] == "Jun") {
+			$formatakhir[0] = "06";
+		} else if ($formatakhir[0] == "Jul") {
+			$formatakhir[0] = "07";
+		} else if ($formatakhir[0] == "Aug") {
+			$formatakhir[0] = "08";
+		} else if ($formatakhir[0] == "Sep") {
+			$formatakhir[0] = "09";
+		} else if ($formatakhir[0] == "Oct") {
+			$formatakhir[0] = "10";
+		} else if ($formatakhir[0] == "Nov") {
+			$formatakhir[0] = "11";
+		} else if ($formatakhir[0] == "Dec") {
+			$formatakhir[0] = "12";
+		}
+
+		// echo $tglmulai;
+		// echo $reptglmulai;
+		// echo $formatmulai[0];
+		// echo $formatakhir[0];
+
+		if (strpos($reptglmulai, "/") && strpos($reptglakhir, "/")) {
+			//echo 'ok';
+			// $format = array();
+			// $format = (explode("/", $tglmulai));
+			$bulan = $formatmulai[0];
+			$tanggal = $formatmulai[1];
+			$tahun = $formatmulai[2];
+
+			// $formatakhir = array();
+			// $formatakhir = (explode("/", $tglakhir));
+			$bulanakhir = $formatakhir[0];
+			$tanggalakhir = $formatakhir[1];
+			$tahunakhir = $formatakhir[2];
+
+			if (checkdate($bulan, $tanggal, $tahun) && checkdate($bulanakhir, $tanggalakhir, $tahunakhir)) {
+				if ($this->M_Kegiatan->edit($data, $id) == TRUE) {
+					$this->M_Kegiatan->editTanggalAkhir($data2, $id);
+					$this->M_Kegiatan->editTanggalAkhir2($data2, $id);
+					$this->session->set_flashdata('edit', true);
+				} else {
+					$this->session->set_flashdata('edit', false);
+				}
+				redirect('kajur/detilkegiatan/' . $id, 'refresh');
+			} else {
+				echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+				echo anchor('kajur/detilkegiatan/' . $id, 'Kembali');
+			}
+		} else {
+			echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+			echo anchor('kajur/detilkegiatan/' . $id, 'Kembali');
+		}
 	}
 
 	public function deleteKegiatan($id)
@@ -408,13 +502,39 @@ class C_kajur extends CI_Controller
 			'sumberbiaya' => $this->input->post('sumberbiaya'),
 			'pengaju' => $this->getdosen['id']
 		);
+		$tglmulai = $this->input->post('tanggal_mulai');
+		$tglakhir = $this->input->post('tanggal_akhir');
 
-		if ($this->M_Kegiatan->insert($data) == TRUE) {
-			$this->session->set_flashdata('tambah', true);
+		if (strpos($tglmulai, "/") && strpos($tglakhir, "/")) {
+			$format = array();
+			$format = (explode("/", $tglmulai));
+			$bulan = $format[0];
+			$tanggal = $format[1];
+			$tahun = $format[2];
+
+			$formatakhir = array();
+			$formatakhir = (explode("/", $tglakhir));
+			$bulanakhir = $formatakhir[0];
+			$tanggalakhir = $formatakhir[1];
+			$tahunakhir = $formatakhir[2];
+			// print_r($tahun);
+			// var_dump(checkdate( $bulan, $tanggal, $tahun ));
+			//echo checkdate( $bulan, $tanggal, $tahun );
+			if (checkdate($bulan, $tanggal, $tahun) && checkdate($bulanakhir, $tanggalakhir, $tahunakhir)) {
+				if ($this->M_Kegiatan->insert($data) == TRUE) {
+					$this->session->set_flashdata('tambah', true);
+				} else {
+					$this->session->set_flashdata('tambah', false);
+				}
+				redirect('kajur/kegiatan/undone', 'refresh');
+			} else {
+				echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+				echo anchor('kajur/kegiatan/undone', 'Kembali');
+			}
 		} else {
-			$this->session->set_flashdata('tambah', false);
+			echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+			echo anchor('kajur/kegiatan/undone', 'Kembali');
 		}
-		redirect('kajur/kegiatan/undone', 'refresh');
 	}
 
 	public function pengajuan()
@@ -522,13 +642,13 @@ class C_kajur extends CI_Controller
 		//var_dump(json_encode($selesai->tanggal_akhir));
 		date_default_timezone_set('Asia/Jakarta');
 		$now = date('Y-m-d');
-		
-		if ($now > $selesai->tanggal_akhir) {
-			
+
+		if ($now >= $selesai->tanggal_akhir) {
+
 			if ($this->M_Kegiatan->selesai($id) == TRUE) {
 				$this->session->set_flashdata('selesai', true);
 				redirect('kajur/kegiatan/terlaksana', 'refresh');
-			}else{
+			} else {
 				echo $this->session->set_flashdata('selesai', false);
 			}
 		} else {
@@ -536,7 +656,6 @@ class C_kajur extends CI_Controller
 			echo anchor('kajur/detilkegiatan/' . $id, 'Kembali');
 			//redirect('kajur/detilkegiatan/' . $id, 'refresh');
 		}
-		
 	}
 
 	//end kegiatan
@@ -773,57 +892,105 @@ class C_kajur extends CI_Controller
 
 		//var_dump(json_encode($data));
 
-		if ($this->M_Penugasan->insert($data) == TRUE) {
-			$this->session->set_flashdata('tambah', true);
-		} else {
-			$this->session->set_flashdata('tambah', false);
+		$periodeakhir = $this->input->post('periode_akhir');
+		$repperiodeakhir = str_replace(" ", "/", $periodeakhir);
+		$formatperiode = array();
+		$formatperiode = (explode("/", $repperiodeakhir));
+
+		if ($formatperiode[0] == "Jan") {
+			$formatperiode[0] = "01";
+		} else if ($formatperiode[0] == "Feb") {
+			$formatperiode[0] = "02";
+		} else if ($formatperiode[0] == "Mar") {
+			$formatperiode[0] = "03";
+		} else if ($formatperiode[0] == "Apr") {
+			$formatperiode[0] = "04";
+		} else if ($formatperiode[0] == "May") {
+			$formatperiode[0] = "05";
+		} else if ($formatperiode[0] == "Jun") {
+			$formatperiode[0] = "06";
+		} else if ($formatperiode[0] == "Jul") {
+			$formatperiode[0] = "07";
+		} else if ($formatperiode[0] == "Aug") {
+			$formatperiode[0] = "08";
+		} else if ($formatperiode[0] == "Sep") {
+			$formatperiode[0] = "09";
+		} else if ($formatperiode[0] == "Oct") {
+			$formatperiode[0] = "10";
+		} else if ($formatperiode[0] == "Nov") {
+			$formatperiode[0] = "11";
+		} else if ($formatperiode[0] == "Dec") {
+			$formatperiode[0] = "12";
 		}
 
-		$email = $this->M_Dosen->detil($this->input->post('dosen'));
-		// print_r($email['email']);
+		if (strpos($repperiodeakhir, "/")) {
+			//echo 'ok';
+			// $format = array();
+			// $format = (explode("/", $tglmulai));
+			$bulan = $formatperiode[0];
+			$tanggal = $formatperiode[1];
+			$tahun = $formatperiode[2];
 
-		// $from_email = "tobiasjaya3@gmail.com";
-		// $to_email = "tobiasjaya3@gmail.com";
-		$namakegiatan = $this->input->post('namekegiatan');
-		$idkegiatan = $this->input->post('id');
-		$config = array(
-			'mailtype'  => 'html',
-			'charset'   => 'utf-8',
-			'protocol'  => 'smtp',
-			'smtp_host' => 'smtp.gmail.com',
-			'smtp_user' => 'tobiasjaya3@gmail.com',  // Email gmail
-			'smtp_pass'   => 'apalotot',  // Password gmail
-			'smtp_crypto' => 'ssl',
-			'smtp_port'   => 465,
-			'crlf'    => "\r\n",
-			'newline' => "\r\n"
-		);
+			if (checkdate($bulan, $tanggal, $tahun)) {
+				if ($this->M_Penugasan->insert($data) == TRUE) {
+					$this->session->set_flashdata('tambah', true);
+				} else {
+					$this->session->set_flashdata('tambah', false);
+				}
 
-		$this->load->library('email', $config);
-		$this->email->set_newline("\r\n");
+				$email = $this->M_Dosen->detil($this->input->post('dosen'));
+				// print_r($email['email']);
 
-		$this->email->from('tobiasjaya3@gmail.com', 'SI pengelolaan kegiatan IF UNPAR');
-		$this->email->to('tobiasjaya3@gmail.com');
-		$this->email->subject('Penugasan Kegiatan ' . $namakegiatan);
-		$role = "";
-		if ($email['role'] == 0) {
-			$role = "kajur";
+				// $from_email = "tobiasjaya3@gmail.com";
+				// $to_email = "tobiasjaya3@gmail.com";
+				$namakegiatan = $this->input->post('namekegiatan');
+				$idkegiatan = $this->input->post('id');
+				$config = array(
+					'mailtype'  => 'html',
+					'charset'   => 'utf-8',
+					'protocol'  => 'smtp',
+					'smtp_host' => 'smtp.gmail.com',
+					'smtp_user' => 'tobiasjaya3@gmail.com',  // Email gmail
+					'smtp_pass'   => 'apalotot',  // Password gmail
+					'smtp_crypto' => 'ssl',
+					'smtp_port'   => 465,
+					'crlf'    => "\r\n",
+					'newline' => "\r\n"
+				);
+
+				$this->load->library('email', $config);
+				$this->email->set_newline("\r\n");
+
+				$this->email->from('tobiasjaya3@gmail.com', 'SI pengelolaan kegiatan IF UNPAR');
+				$this->email->to('tobiasjaya3@gmail.com');
+				$this->email->subject('Penugasan Kegiatan ' . $namakegiatan);
+				$role = "";
+				if ($email['role'] == 0) {
+					$role = "kajur";
+				} else {
+					$role = "dosen";
+				}
+				$this->email->message('Anda telah ditugaskan di kegiatan "' . $namakegiatan . '". Pergi ke halaman http://localhost/skripsi/' . $role . '/detilkegiatan/' . $idkegiatan . ' untuk melihat detailnya.');
+				//Send mail 
+				//print_r($this->email->send());
+				if ($this->email->send()) {
+					$this->session->set_flashdata("notif", "Email berhasil terkirim.");
+					//echo "Ok";
+				} else {
+					$this->session->set_flashdata("notif", "Email gagal dikirim.");
+					//echo "nok";
+					//$this->load->view(‘home’);
+				}
+
+				redirect('kajur/detilkegiatan/' . $this->input->post('id'), 'refresh');
+			} else {
+				echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+				echo anchor('kajur/detilkegiatan/' . $this->input->post('id'), 'Kembali');
+			}
 		} else {
-			$role = "dosen";
+			echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+			echo anchor('kajur/detilkegiatan/' . $this->input->post('id'), 'Kembali');
 		}
-		$this->email->message('Anda telah ditugaskan di kegiatan "' . $namakegiatan . '". Pergi ke halaman http://localhost/skripsi/' . $role . '/detilkegiatan/' . $idkegiatan . ' untuk melihat detailnya.');
-		//Send mail 
-		//print_r($this->email->send());
-		if ($this->email->send()) {
-			$this->session->set_flashdata("notif", "Email berhasil terkirim.");
-			//echo "Ok";
-		} else {
-			$this->session->set_flashdata("notif", "Email gagal dikirim.");
-			//echo "nok";
-			//$this->load->view(‘home’);
-		}
-
-		redirect('kajur/detilkegiatan/' . $this->input->post('id'), 'refresh');
 	}
 
 	public function insertPenugasanMhs()
@@ -839,12 +1006,60 @@ class C_kajur extends CI_Controller
 		);
 		//var_dump(json_encode($data));
 
-		if ($this->M_Penugasan->insertMhs($data) == TRUE) {
-			$this->session->set_flashdata('tambah', true);
-		} else {
-			$this->session->set_flashdata('tambah', false);
+		$periodeakhir = $this->input->post('periode_akhir');
+		$repperiodeakhir = str_replace(" ", "/", $periodeakhir);
+		$formatperiode = array();
+		$formatperiode = (explode("/", $repperiodeakhir));
+
+		if ($formatperiode[0] == "Jan") {
+			$formatperiode[0] = "01";
+		} else if ($formatperiode[0] == "Feb") {
+			$formatperiode[0] = "02";
+		} else if ($formatperiode[0] == "Mar") {
+			$formatperiode[0] = "03";
+		} else if ($formatperiode[0] == "Apr") {
+			$formatperiode[0] = "04";
+		} else if ($formatperiode[0] == "May") {
+			$formatperiode[0] = "05";
+		} else if ($formatperiode[0] == "Jun") {
+			$formatperiode[0] = "06";
+		} else if ($formatperiode[0] == "Jul") {
+			$formatperiode[0] = "07";
+		} else if ($formatperiode[0] == "Aug") {
+			$formatperiode[0] = "08";
+		} else if ($formatperiode[0] == "Sep") {
+			$formatperiode[0] = "09";
+		} else if ($formatperiode[0] == "Oct") {
+			$formatperiode[0] = "10";
+		} else if ($formatperiode[0] == "Nov") {
+			$formatperiode[0] = "11";
+		} else if ($formatperiode[0] == "Dec") {
+			$formatperiode[0] = "12";
 		}
-		redirect('kajur/detilkegiatan/' . $this->input->post('id'), 'refresh');
+
+		if (strpos($repperiodeakhir, "/")) {
+			//echo 'ok';
+			// $format = array();
+			// $format = (explode("/", $tglmulai));
+			$bulan = $formatperiode[0];
+			$tanggal = $formatperiode[1];
+			$tahun = $formatperiode[2];
+
+			if (checkdate($bulan, $tanggal, $tahun)) {
+				if ($this->M_Penugasan->insertMhs($data) == TRUE) {
+					$this->session->set_flashdata('tambah', true);
+				} else {
+					$this->session->set_flashdata('tambah', false);
+				}
+				redirect('kajur/detilkegiatan/' . $this->input->post('id'), 'refresh');
+			} else {
+				echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+				echo anchor('kajur/detilkegiatan/' . $this->input->post('id'), 'Kembali');
+			}
+		} else {
+			echo "<h3>Tanggal yang anda masukkan tidak valid. Format : bulan/tanggal/tahun</h3>";
+			echo anchor('kajur/detilkegiatan/' . $this->input->post('id'), 'Kembali');
+		}
 	}
 
 	public function detilPenugasan($id)
